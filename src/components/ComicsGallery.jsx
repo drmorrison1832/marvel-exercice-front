@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 
-const ComicsGallery = ({ comics }) => {
+const ComicsGallery = ({ comics, count }) => {
   return (
     <section className="gallery">
+      <p>{count} results</p>
       {comics.map((comic) => {
         return (
           <Link to={`/comic/${comic._id}`} key={comic._id}>

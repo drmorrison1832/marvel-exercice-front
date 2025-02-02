@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ComicsGallery from "../components/ComicsGallery";
-import ComicsSearchSection from "../components/ComicsSearchSection";
-import { use } from "react";
+import SearchBar from "../components/SearchBar";
 
 const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   const [data, setData] = useState();
@@ -16,8 +15,12 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}`
         );
-        console.log(response);
-        setData(response.data);
+        // console.log(response);
+        let sortedData = response.data;
+
+        response;
+
+        setData(sortedData);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -39,14 +42,8 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
 
   return (
     <>
-      <ComicsSearchSection
-        // setData={setData}
-        // setIsLoading={setIsLoading}
-        // setError={setError}
-        title={title}
-        setTitle={setTitle}
-      />
-      <ComicsGallery comics={data.results} />
+      <SearchBar setValue={setTitle} />
+      <ComicsGallery comics={data.results} count={data.count} />
     </>
   );
 };

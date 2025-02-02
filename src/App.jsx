@@ -12,7 +12,7 @@ import Header from "./components/Header";
 import ModalContainer from "./components/ModalContainer";
 
 function App() {
-  const [showModalsContainer, setShowModalsContainer] = useState(true);
+  const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="/comic/:comicID" element={<Comic />} />
           <Route path="/characters" element={<Characters />} />
           <Route path="/user" element={<User />} />
-          <Route path="/*" element={<Home />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
       {showModalsContainer && (

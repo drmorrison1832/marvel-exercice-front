@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import marvelLogo from "../../public/marvel-logo.svg";
+import marvelLogo from "../assets/marvel-logo.svg";
 
 const Header = () => {
   return (

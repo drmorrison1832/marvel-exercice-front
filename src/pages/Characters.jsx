@@ -1,16 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SearchBar from "../components/SearchBar";
 
 const Characters = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "https://site--marvel-back--44tkxvkbbxk5.code.run/characters"
+          `https://site--marvel-back--44tkxvkbbxk5.code.run/characters?name=${name}`
         );
         console.log(response);
         setData(response.data);
@@ -22,7 +24,7 @@ const Characters = () => {
       }
     }
     fetchData();
-  }, []);
+  }, [name]);
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
@@ -34,7 +36,8 @@ const Characters = () => {
 
   return (
     <div>
-      <h1>Characters</h1>
+      <SearchBar setValue={setName} />
+      <p>{data.count} results</p>
       <section className="gallery">
         {data.results.map((character) => {
           return (
