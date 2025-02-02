@@ -1,3 +1,5 @@
+@use "modals.scss";
+
 html {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #242424;
@@ -29,39 +31,71 @@ body {
   // min-height: 100%;
 }
 
+.modal-container {
+}
+
 header {
-  border: 1px solid white;
   align-self: stretch;
 
+  display: flex;
+  flex-direction: column;
+  background: #ed1e24;
+  .logo-container {
+    // border: 1px solid white;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    img {
+      height: 100%;
+    }
+  }
   nav {
+    margin: 1em 0;
     display: flex;
     justify-content: space-around;
     gap: 2em;
+    .header-navigator {
+      color: #ed1e24;
+      background: white;
+      min-width: 7em;
+      height: 2em;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      // border: 1px solid white;
+      border-radius: 10px;
+      &:hover {
+        background: #dddddd;
+      }
+    }
   }
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  // color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  // color: #535bf2;
 }
 
 .test1:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-  transition: filter 300ms;
+  filter: drop-shadow(0 0 2em #ffffffaa);
+  // filter: drop-shadow(0 0 2em #646cffaa);
+  transition: filter 200ms;
 }
 .test2:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
-  transition: filter 300ms;
+  transition: filter 200ms;
 }
 
-.comics-showcase {
+.gallery {
+  padding: 2em;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 1em;
 
   .article {
     border: 1px solid white;
@@ -69,9 +103,9 @@ a:hover {
     padding: 1em;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    flex-basis: 44%;
+    width: calc(150px + 2em);
     margin-bottom: 1em;
 
     .title {
@@ -87,8 +121,16 @@ a:hover {
     }
     .thumbnail {
       margin-top: 1em;
-    }
-    .thumbnail {
+      img {
+        width: 100%;
+      }
     }
   }
+}
+
+.comic-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

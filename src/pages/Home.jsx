@@ -15,11 +15,11 @@ const Home = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
+    return <div className="is-loading">Home: Chargement...</div>;
   }
 
   if (error) {
-    return <div className="loading-error">Oups</div>;
+    return <div className="loading-error">Home: Oups</div>;
   }
 
   return <div>Home</div>;

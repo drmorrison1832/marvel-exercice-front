@@ -1,16 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ComicsGallery from "../components/ComicsGallery";
+import ComicsSearchSection from "../components/ComicsSearchSection";
+import { use } from "react";
 
-const Comics = () => {
+const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          "https://site--marvel-back--44tkxvkbbxk5.code.run/comics"
+          `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}`
         );
         console.log(response);
         setData(response.data);
@@ -21,8 +25,9 @@ const Comics = () => {
         setError(error.message);
       }
     }
+
     fetchData();
-  }, []);
+  }, [title]);
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
@@ -33,30 +38,16 @@ const Comics = () => {
   }
 
   return (
-    <div>
-      <h1>Comics</h1>
-      <section className="comics-showcase">
-        {data.results.map((comic) => {
-          return (
-            <article className="article test1" key={comic._id}>
-              <div className="title">{comic.title}</div>
-              <div className="description">{comic.description}</div>
-              <div className="thumbnail">
-                <img
-                  src={
-                    comic.thumbnail.path +
-                    "/portrait_medium" +
-                    "." +
-                    comic.thumbnail.extension
-                  }
-                  alt=""
-                />
-              </div>
-            </article>
-          );
-        })}
-      </section>
-    </div>
+    <>
+      <ComicsSearchSection
+        // setData={setData}
+        // setIsLoading={setIsLoading}
+        // setError={setError}
+        title={title}
+        setTitle={setTitle}
+      />
+      <ComicsGallery comics={data.results} />
+    </>
   );
 };
 
