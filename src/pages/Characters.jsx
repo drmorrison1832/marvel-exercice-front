@@ -28,7 +28,7 @@ const Characters = () => {
       }
     }
     fetchData();
-  }, [name]);
+  }, [page, name, skip, limit]);
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;

@@ -25,8 +25,11 @@ const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
         {"<"}
       </div>
       <div>
-        {(page - 1) * limit + 1}-{Math.min(page * limit, count)} out of {count}{" "}
-        {type}s
+        <div>
+          {(page - 1) * limit + 1}-{Math.min(page * limit, count)} out of{" "}
+          {count}
+        </div>
+        <div>{type}s found</div>
       </div>
       <div
         className="button"
