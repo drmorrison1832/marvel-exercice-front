@@ -1,26 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ComicsGallery from "../components/ComicsGallery";
+import Gallery from "../components/Gallery";
 import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
 
 const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [title, setTitle] = useState("");
+  const [limit, setLimit] = useState(100);
+  const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
+    console.log("Running useEffect");
     async function fetchData() {
       try {
         const response = await axios.get(
-          `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}`
+          `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}&limit=${limit}&skip=${skip}`
         );
         // console.log(response);
-        let sortedData = response.data;
 
-        response;
-
-        setData(sortedData);
+        setData(response.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -30,7 +32,9 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
     }
 
     fetchData();
-  }, [title]);
+  }, [page, title, skip, limit]);
+
+  console.log("Rendering Comics");
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
@@ -42,8 +46,27 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
 
   return (
     <>
-      <SearchBar setValue={setTitle} />
-      <ComicsGallery comics={data.results} count={data.count} />
+      <SearchBar setValue={setTitle} count={data.count} type="comic" />
+
+      <Pagination
+        count={data.count}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        skip={skip}
+        setSkip={setSkip}
+        type="comic"
+      />
+      <Gallery type="comic" items={data.results} count={data.count} />
+      <Pagination
+        count={data.count}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        skip={skip}
+        setSkip={setSkip}
+        type="comic"
+      />
     </>
   );
 };

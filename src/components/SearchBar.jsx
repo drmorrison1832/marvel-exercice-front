@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-const ComicsSearchSection = ({ setValue }) => {
+const ComicsSearchSection = ({ setValue, count, type }) => {
   const [newValue, setNewValue] = useState("");
 
   useEffect(() => {
     const debouncenewValue = setTimeout(() => {
       setValue(newValue);
-      newValue && console.log("Setting newValue to", newValue);
+      // newValue && console.log("Setting newValue to", newValue);
     }, 500);
     return () => {
       clearTimeout(debouncenewValue);
@@ -14,16 +14,18 @@ const ComicsSearchSection = ({ setValue }) => {
   }, [newValue, setValue]);
 
   return (
-    <form>
+    <form
+      className="search-form"
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
       <input
         type="text"
-        placeholder="Start searching..."
+        id="search-bar"
+        placeholder={`Search ${count} ${type}s`}
         value={newValue}
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
         onChange={(event) => {
-          console.log(event.target.value);
           setNewValue(event.target.value);
         }}
       />

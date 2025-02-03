@@ -1,20 +1,24 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
+import Gallery from "../components/Gallery";
+import Pagination from "../components/Pagination";
 
 const Characters = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [name, setName] = useState("");
+  const [limit, setLimit] = useState(100);
+  const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `https://site--marvel-back--44tkxvkbbxk5.code.run/characters?name=${name}`
+          `https://site--marvel-back--44tkxvkbbxk5.code.run/characters?name=${name}&limit=${limit}&skip=${skip}`
         );
-        console.log(response);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -35,33 +39,28 @@ const Characters = () => {
   }
 
   return (
-    <div>
-      <SearchBar setValue={setName} />
-      <p>{data.count} results</p>
-      <section className="gallery">
-        {data.results.map((character) => {
-          return (
-            <article className="article test1" key={character._id}>
-              <div className="thumbnail">
-                <img
-                  src={
-                    character.thumbnail.path +
-                    "/portrait_xlarge" +
-                    "." +
-                    character.thumbnail.extension
-                  }
-                  alt=""
-                />
-              </div>
-              <div className="name">{character.name}</div>
-              {character.description && (
-                <div className="description">{character.description}</div>
-              )}
-            </article>
-          );
-        })}
-      </section>
-    </div>
+    <>
+      <SearchBar setValue={setName} count={data.count} type="character" />
+      <Pagination
+        count={data.count}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        skip={skip}
+        setSkip={setSkip}
+        type="character"
+      />
+      <Gallery type="character" items={data.results} count={data.count} />
+      <Pagination
+        count={data.count}
+        page={page}
+        setPage={setPage}
+        limit={limit}
+        skip={skip}
+        setSkip={setSkip}
+        type="character"
+      />
+    </>
   );
 };
 

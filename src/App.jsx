@@ -10,6 +10,7 @@ import Comic from "./pages/Comic";
 import User from "./pages/User";
 import Header from "./components/Header";
 import ModalContainer from "./components/ModalContainer";
+import Character from "./pages/Character";
 
 function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/comics" element={<Comics />} />
           <Route path="/comic/:comicID" element={<Comic />} />
+          <Route path="/character/:characterID" element={<Character />} />
           <Route path="/characters" element={<Characters />} />
           <Route path="/user" element={<User />} />
           <Route path="*" element={<Home />} />

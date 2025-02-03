@@ -93,6 +93,7 @@ a:hover {
 .gallery {
   padding: 2em;
   display: flex;
+  // flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
@@ -100,12 +101,13 @@ a:hover {
   .article {
     border: 1px solid white;
     background: #000;
-    padding: 1em;
+    // padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     width: calc(150px + 2em);
+    height: 400px;
     margin-bottom: 1em;
 
     .title {
@@ -120,11 +122,34 @@ a:hover {
       // white-space: nowrap;
     }
     .thumbnail {
-      margin-top: 1em;
+      // margin-top: 1em;
       img {
         width: 100%;
       }
     }
+  }
+}
+
+.search-form {
+  margin-top: 1em;
+  // border: 1px solid white;
+  width: 100%;
+  input {
+    width: 60%;
+    max-width: 30em;
+    &::placeholder {
+      font-size: 0.95em;
+    }
+  }
+}
+
+.pagination {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  gap: 2em;
+  .button:hover {
+    cursor: pointer;
   }
 }
 
