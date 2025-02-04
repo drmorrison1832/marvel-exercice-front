@@ -14,12 +14,15 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    console.log("Running useEffect");
     async function fetchData() {
+      console.log("Retrieving comics...");
+
       try {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}&limit=${limit}&skip=${skip}`
         );
+        console.log("Comics retrieved...");
+
         // console.log(response);
 
         setData(response.data);
@@ -34,7 +37,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
     fetchData();
   }, [page, title, skip, limit]);
 
-  console.log("Rendering Comics");
+  // console.log("Rendering Comics");
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;

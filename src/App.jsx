@@ -17,14 +17,17 @@ function App() {
   const [modalToShow, setModalToShow] = useState("");
 
   useEffect(() => {
-    function createLocallySaved() {
-      const locallySaved = { saved: { comics: [], characters: [] } };
-      if (!localStorage.getItem("locallySaved")) {
-        localStorage.setItem("locallySaved", JSON.stringify(locallySaved));
+    function createLocalUser() {
+      const localUser = {
+        username: "New user",
+        saved: { comics: [], characters: [] },
+      };
+      if (!localStorage.getItem("localUser")) {
+        localStorage.setItem("localUser", JSON.stringify(localUser));
       }
     }
-    createLocallySaved();
-    // console.log(JSON.parse(localStorage.getItem("locallySaved")));
+    createLocalUser();
+    // console.log(JSON.parse(localStorage.getItem("localUser")));
   }, []);
 
   return (

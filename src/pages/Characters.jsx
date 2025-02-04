@@ -15,10 +15,12 @@ const Characters = () => {
 
   useEffect(() => {
     async function fetchData() {
+      console.log("Retrieving characters...");
       try {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/characters?name=${name}&limit=${limit}&skip=${skip}`
         );
+        console.log("Characters retrieved...");
         setData(response.data);
         setIsLoading(false);
       } catch (error) {

@@ -1,34 +1,35 @@
 import { useState } from "react";
 
 const SaveIcon = ({ type, itemID }) => {
-  localStorage.setItem("test", "contenu");
-  const [locallySaved, setLocallySaved] = useState(
-    JSON.parse(localStorage.getItem("locallySaved"))
+  const [localUser, setLocalUser] = useState(
+    JSON.parse(localStorage.getItem("localUser"))
   );
 
   function handleSave(event, type, itemID) {
-    console.log("save");
-    let newLocallySaved = { ...locallySaved };
-    !newLocallySaved.saved[`${type}s`].includes(itemID) &&
-      newLocallySaved.saved[`${type}s`].push(itemID);
-    localStorage.setItem("locallySaved", JSON.stringify(newLocallySaved));
-    setLocallySaved(newLocallySaved);
+    console.log("save", itemID);
+    let tempLocalUser = JSON.parse(localStorage.getItem("localUser"));
+    // let newLocalUser = { ...localUser };
+    !tempLocalUser.saved[`${type}s`].includes(itemID) &&
+      tempLocalUser.saved[`${type}s`].push(itemID);
+    localStorage.setItem("localUser", JSON.stringify(tempLocalUser));
+    setLocalUser(tempLocalUser);
   }
 
   function handleUnsave(event, type, itemID) {
-    console.log("unsave");
-    let newLocallySaved = { ...locallySaved };
-    let index = newLocallySaved.saved[`${type}s`].indexOf(itemID);
+    console.log("unsave", itemID);
+    let tempLocalUser = JSON.parse(localStorage.getItem("localUser"));
+    let index = tempLocalUser.saved[`${type}s`].indexOf(itemID);
     if (index === -1) {
       return;
     }
-    newLocallySaved.saved[`${type}s`].splice(index, 1);
-    setLocallySaved(newLocallySaved);
+    tempLocalUser.saved[`${type}s`].splice(index, 1);
+    localStorage.setItem("localUser", JSON.stringify(tempLocalUser));
+    setLocalUser(tempLocalUser);
   }
 
   return (
     <>
-      {locallySaved.saved[`${type}s`].includes(itemID) ? (
+      {localUser.saved[`${type}s`].includes(itemID) ? (
         <div
           className="save-icon-container"
           onClick={(event) => {
