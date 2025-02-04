@@ -16,6 +16,17 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
+  useEffect(() => {
+    function createLocallySaved() {
+      const locallySaved = { saved: { comics: [], characters: [] } };
+      if (!localStorage.getItem("locallySaved")) {
+        localStorage.setItem("locallySaved", JSON.stringify(locallySaved));
+      }
+    }
+    createLocallySaved();
+    // console.log(JSON.parse(localStorage.getItem("locallySaved")));
+  }, []);
+
   return (
     <>
       <Header />

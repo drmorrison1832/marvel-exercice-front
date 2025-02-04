@@ -49,6 +49,7 @@ const Characters = () => {
         skip={skip}
         setSkip={setSkip}
         type="character"
+        setIsLoading={setIsLoading}
       />
       <Gallery type="character" items={data.results} count={data.count} />
       <Pagination

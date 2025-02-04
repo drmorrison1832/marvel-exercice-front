@@ -1,4 +1,13 @@
-const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
+const Pagination = ({
+  count,
+  page,
+  setPage,
+  limit,
+  skip,
+  setSkip,
+  type,
+  setIsLoading,
+}) => {
   return (
     <div className="pagination">
       <div
@@ -6,6 +15,7 @@ const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
         onClick={() => {
           setSkip(0);
           setPage(1);
+          setIsLoading(true);
         }}
       >
         {"<<"}
@@ -20,6 +30,7 @@ const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
             setSkip(0);
             setPage(1);
           }
+          setIsLoading(true);
         }}
       >
         {"<"}
@@ -38,6 +49,7 @@ const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
             setSkip((prev) => prev + limit);
             setPage((prev) => prev + 1);
           }
+          setIsLoading(true);
         }}
       >
         {">"}
@@ -47,6 +59,7 @@ const Pagination = ({ count, page, setPage, limit, skip, setSkip, type }) => {
         onClick={() => {
           setPage(Math.ceil(count / limit));
           setSkip(count - limit);
+          setIsLoading(true);
         }}
       >
         {">>"}
