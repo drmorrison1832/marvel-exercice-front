@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const ComicsSearchSection = ({ setValue, count, type }) => {
+const SearchBar = ({ setValue, count, type }) => {
   const [newValue, setNewValue] = useState("");
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const ComicsSearchSection = ({ setValue, count, type }) => {
 
   return (
     <form
-      className="search-form"
+      className="s-form"
       onSubmit={(event) => {
         event.preventDefault();
       }}
@@ -33,4 +33,4 @@ const ComicsSearchSection = ({ setValue, count, type }) => {
   );
 };
 
-export default ComicsSearchSection;
+export default SearchBar;

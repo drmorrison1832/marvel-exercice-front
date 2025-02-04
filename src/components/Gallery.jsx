@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 // import { useState, useEffect } from "react";
 import SaveIcon from "./SaveIcon";
 
-const Gallery = ({ type, items, count, isLoading }) => {
+const Gallery = ({ type, items, isLoading }) => {
+  // , count
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
   }
@@ -29,7 +30,6 @@ const Gallery = ({ type, items, count, isLoading }) => {
                 {item.description || "No description."}
               </div>
               <SaveIcon type={type} itemID={item._id} />
-              )}
             </article>
           );
         })}

@@ -23,7 +23,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         );
         console.log("Comics retrieved...");
 
-        // console.log(response);
+        console.log(response.data.count);
 
         setData(response.data);
         setIsLoading(false);
@@ -37,11 +37,11 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
     fetchData();
   }, [page, title, skip, limit]);
 
-  // console.log("Rendering Comics");
+  console.log("Rendering Comics");
 
-  // if (isLoading) {
-  //   return <div className="is-loading">Chargement...</div>;
-  // }
+  if (isLoading) {
+    return <div className="is-loading">Chargement...</div>;
+  }
 
   if (error) {
     return <div className="loading-error">Oups</div>;

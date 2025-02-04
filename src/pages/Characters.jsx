@@ -32,9 +32,9 @@ const Characters = () => {
     fetchData();
   }, [page, name, skip, limit]);
 
-  // if (isLoading) {
-  //   return <div className="is-loading">Chargement...</div>;
-  // }
+  if (isLoading) {
+    return <div className="is-loading">Chargement...</div>;
+  }
 
   if (error) {
     return <div className="loading-error">Oups</div>;
