@@ -55,8 +55,6 @@ header {
     justify-content: space-evenly;
     gap: 1em;
     .header-navigator {
-      color: #ed1e24;
-      background: white;
       min-width: 6em;
       height: 2em;
       display: flex;
@@ -67,6 +65,15 @@ header {
       &:hover {
         background: #dddddd;
       }
+    }
+    .on {
+      color: #ed1e24;
+      background: white;
+    }
+    .off {
+      color: white;
+
+      border: 1px solid white;
     }
   }
 }
@@ -90,6 +97,7 @@ a:hover {
   transition: filter 200ms;
 }
 
+// GALLERY
 .gallery {
   padding: 2em;
   display: flex;
@@ -102,62 +110,84 @@ a:hover {
     // border: 1px solid white;
     background: #000;
     position: relative;
-    text-align: right;
+    // text-align: right;
     // padding: 1em;
     // display: flex;
     // flex-direction: column;
     // justify-content: flex-start;
     // align-items: center;
     width: 150px;
-    height: 350px;
     margin-bottom: 1em;
     overflow: hidden;
 
-    .title {
+    .comic-article {
+      // height: 350px;
+    }
+    .character-article {
+      // height: 250px;
+    }
+
+    .item-title {
       font-weight: 700;
       line-height: 1.5em;
       height: 3em;
-      text-align: center;
-    }
-    .description {
-      // border: 1px solid white;
       display: flex;
       justify-content: center;
+      align-items: center;
+      // border: 1px solid white;
+    }
+    .item-description {
+      display: flex;
+      justify-content: left;
       // align-items: center;
       font-size: 0.9em;
       line-height: 1.5em;
       height: 4.5em;
       // max-height: 4.5em;
       overflow: hidden;
-      text-align: center;
       // text-overflow: ellipsis;
       // max-width: 10em;
       // white-space: nowrap;
     }
-    .thumbnail-container {
+    .comic-thumbnail-container {
       height: 233px;
-    }
-    .thumbnail {
-      // margin-top: 1em;
-      img {
-        width: 100%;
+      .comic-thumbnail {
+        // margin-top: 1em;
+        object-fit: fill;
+        img {
+          // width: 100%;
+        }
       }
     }
+
+    .character-thumbnail-container {
+      // height: 300px;
+      aspect-ratio: 1/1;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        object-position: center left;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
     .save-icon-container {
       color: red;
       text-shadow: #61dafbaa;
-      // border: 1px solid white;
       background: #000;
-      width: 1em;
+      width: 1.1em;
       height: 1em;
       position: absolute;
-      bottom: 3px;
+      bottom: 0px;
       right: 0px;
       font-size: 1.5em;
       display: flex;
       justify-content: flex-end;
       align-items: center;
       // width: 100%;
+      border-radius: 10px 0 0 0;
     }
   }
 }
@@ -185,9 +215,122 @@ a:hover {
   }
 }
 
+// COMIC PAGE
 .comic-page {
+  margin: 1em 0 5em 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
+  .comic-thumbnail-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    img {
+      // width: 100%;
+    }
+  }
+  .comic-title {
+    margin-top: 0.5em;
+    font-weight: 700;
+    font-size: 1.5em;
+  }
+  .comic-description {
+    margin-top: 0.5em;
+    line-height: 1.5em;
+    padding: 0 1em;
+    text-align: justify;
+    width: 100%;
+    &::first-letter {
+      font-size: 2em;
+    }
+  }
+  h2 {
+    margin-top: 1em;
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+  .character-appearances-section {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .character-appearance-title {
+    background: #000;
+
+    font-size: 0.7em;
+    overflow: hidden;
+  }
+  .character-appearance {
+    // border: 1px solid white;
+    width: 100px;
+    // height: 150px;
+    height: calc(150px + 1em);
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+// CHARACTER PAGE
+
+.character-page {
+  margin: 1em 0 5em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .character-thumbnail-container {
+    // height: 233px;
+    img {
+      // width: 100%;
+    }
+  }
+
+  .character-name {
+    margin-top: 0.5em;
+    font-weight: 700;
+    font-size: 1.5em;
+  }
+  .character-description {
+    margin-top: 0.5em;
+    line-height: 1.5em;
+    padding: 0 1em;
+    text-align: justify;
+    width: 100%;
+    &::first-letter {
+      font-size: 2em;
+    }
+  }
+  h2 {
+    margin-top: 1em;
+    font-weight: 700;
+    font-size: 1.2em;
+  }
+  .character-appearances-section {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+  .character-appearance {
+    // border: 1px solid white;
+    width: 100px;
+    // height: 150px;
+    height: calc(150px + 1em);
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .character-appearance-title {
+    background: #000;
+
+    font-size: 0.7em;
+    overflow: hidden;
+  }
 }

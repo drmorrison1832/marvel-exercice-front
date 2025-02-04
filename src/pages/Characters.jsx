@@ -9,7 +9,7 @@ const Characters = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [name, setName] = useState("");
-  const [limit, setLimit] = useState(100);
+  const [limit, setLimit] = useState(48);
   const [skip, setSkip] = useState(0);
   const [page, setPage] = useState(1);
 
@@ -30,7 +30,15 @@ const Characters = () => {
       }
     }
     fetchData();
-  }, [page, name, skip, limit]);
+  }, [name, skip, limit]);
+
+  // useEffect(() => {
+  //   function resetPagination() {
+  //     setPage(1);
+  //     setSkip(0);
+  //   }
+  //   resetPagination();
+  // }, [name]);
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;

@@ -13,9 +13,11 @@ const Pagination = ({
       <div
         className="button"
         onClick={() => {
-          setSkip(0);
-          setPage(1);
-          setIsLoading(true);
+          if (skip > 0) {
+            setSkip(0);
+            setPage(1);
+            setIsLoading(true);
+          }
         }}
       >
         {"<<"}
@@ -26,11 +28,8 @@ const Pagination = ({
           if (skip - limit >= 0) {
             setSkip((prev) => prev - limit);
             setPage((prev) => prev - 1);
-          } else {
-            setSkip(0);
-            setPage(1);
+            setIsLoading(true);
           }
-          setIsLoading(true);
         }}
       >
         {"<"}
@@ -45,11 +44,23 @@ const Pagination = ({
       <div
         className="button"
         onClick={() => {
-          if ((page + 1) * limit <= count) {
-            setSkip((prev) => prev + limit);
-            setPage((prev) => prev + 1);
-          }
+          // console.log("page", page);
+          // console.log("limit", limit);
+          // console.log("count", count);
+          // console.log((page + 1) * limit <= count);
+
+          // if ((page + 1) * limit <= count) {
+          setSkip((prev) => prev + limit);
+          setPage((prev) => prev + 1);
           setIsLoading(true);
+          // } else {
+          //   if (page * limit < count) {
+          //     setPage((prev) => prev + 1);
+          //     setSkip(count - page * limit);
+          //   }
+          // }
+
+          // }
         }}
       >
         {">"}
@@ -57,9 +68,11 @@ const Pagination = ({
       <div
         className="button"
         onClick={() => {
-          setPage(Math.ceil(count / limit));
-          setSkip(count - limit);
-          setIsLoading(true);
+          if (page * limit < count) {
+            setPage(Math.ceil(count / limit));
+            setSkip(count - limit);
+            setIsLoading(true);
+          }
         }}
       >
         {">>"}

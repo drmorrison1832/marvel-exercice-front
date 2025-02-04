@@ -14,11 +14,12 @@ const Comic = () => {
 
   useEffect(() => {
     async function fetchData() {
+      console.log("Retrieving comic data...");
       try {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comicID}`
         );
-        console.log(response.data);
+        console.log("Comic data retrieved");
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -40,7 +41,7 @@ const Comic = () => {
 
   return (
     <article className="comic-page">
-      <div className="thumbnail">
+      <div className="comic-thumbnail-container">
         <img
           src={
             comic.thumbnail.path +
@@ -51,8 +52,8 @@ const Comic = () => {
           alt=""
         />
       </div>
-      <div className="title">{comic.title}</div>
-      <div className="description">{comic.description}</div>
+      <div className="comic-title">{comic.title}</div>
+      <div className="comic-description">{comic.description}</div>
     </article>
   );
 };

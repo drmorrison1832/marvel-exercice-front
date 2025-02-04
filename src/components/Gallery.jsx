@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import SaveIcon from "./SaveIcon";
 
 const Gallery = ({ type, items, isLoading }) => {
-  // , count
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
   }
@@ -13,22 +12,20 @@ const Gallery = ({ type, items, isLoading }) => {
       <section className="gallery">
         {items.map((item, index) => {
           return (
-            <article className="article test1" key={item._id}>
+            <article className={`article ${type}-article`} key={item._id}>
               <Link to={`/${type}/${item._id}`}>
-                <div className="title">{item.title ?? item.name}</div>
+                <div className="item-title">{item.title ?? item.name}</div>
 
-                <div className="thumbnail-container">
-                  <div className="thumbnail">
-                    <img
-                      src={item.thumbnail.path + "." + item.thumbnail.extension}
-                      alt=""
-                    />
-                  </div>
+                <div className={`${type}-thumbnail-container`}>
+                  <img
+                    src={item.thumbnail.path + "." + item.thumbnail.extension}
+                    alt=""
+                  />
                 </div>
               </Link>
-              <div className="description">
+              {/* <div className="item-description">
                 {item.description || "No description."}
-              </div>
+              </div> */}
               <SaveIcon type={type} itemID={item._id} />
             </article>
           );

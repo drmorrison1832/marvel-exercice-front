@@ -14,15 +14,15 @@ const Home = () => {
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return <div className="is-loading">Home: Chargement...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="is-loading">Home: Chargement...</div>;
+  // }
 
-  if (error) {
-    return <div className="loading-error">Home: Oups</div>;
-  }
+  // if (error) {
+  //   return <div className="loading-error">Home: Oups</div>;
+  // }
 
-  return <div>Home</div>;
+  return <div>Exercice done at Le Reacteur</div>;
 };
 
 export default Home;
