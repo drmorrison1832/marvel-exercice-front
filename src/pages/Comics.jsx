@@ -39,9 +39,9 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
 
   // console.log("Rendering Comics");
 
-  if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="is-loading">Chargement...</div>;
+  // }
 
   if (error) {
     return <div className="loading-error">Oups</div>;
@@ -59,6 +59,8 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         skip={skip}
         setSkip={setSkip}
         type="comic"
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <Gallery type="comic" items={data.results} count={data.count} />
       <Pagination
@@ -69,6 +71,8 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         skip={skip}
         setSkip={setSkip}
         type="comic"
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
     </>
   );

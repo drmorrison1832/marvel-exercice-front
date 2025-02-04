@@ -32,9 +32,9 @@ const Characters = () => {
     fetchData();
   }, [page, name, skip, limit]);
 
-  if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="is-loading">Chargement...</div>;
+  // }
 
   if (error) {
     return <div className="loading-error">Oups</div>;
@@ -53,7 +53,12 @@ const Characters = () => {
         type="character"
         setIsLoading={setIsLoading}
       />
-      <Gallery type="character" items={data.results} count={data.count} />
+      <Gallery
+        type="character"
+        items={data.results}
+        count={data.count}
+        isLoading={isLoading}
+      />
       <Pagination
         count={data.count}
         page={page}
@@ -62,6 +67,7 @@ const Characters = () => {
         skip={skip}
         setSkip={setSkip}
         type="character"
+        setIsLoading={setIsLoading}
       />
     </>
   );

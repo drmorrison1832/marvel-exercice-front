@@ -2,7 +2,11 @@ import { Link } from "react-router-dom";
 // import { useState, useEffect } from "react";
 import SaveIcon from "./SaveIcon";
 
-const Gallery = ({ type, items, count }) => {
+const Gallery = ({ type, items, count, isLoading }) => {
+  if (isLoading) {
+    return <div className="is-loading">Chargement...</div>;
+  }
+
   return (
     <>
       <section className="gallery">
