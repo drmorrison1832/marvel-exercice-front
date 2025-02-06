@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import SaveIcon from "../components/SaveIcon";
 
 const Character = () => {
   const { characterID } = useParams();
@@ -60,11 +61,12 @@ const Character = () => {
 
   return (
     <article className="character-page">
-      <div className="caracter-thumbnail-container">
+      <div className="character-thumbnail-container">
         <img
           src={`${data.thumbnail.path}.${data.thumbnail.extension}`}
           alt={data.name}
         />
+        <SaveIcon type="character" itemID={characterID} />
       </div>
       <div className="character-name">{data.name}</div>
       <div className="character-description">

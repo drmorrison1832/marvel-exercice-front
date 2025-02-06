@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import SaveIcon from "../components/SaveIcon";
 
 const Comic = () => {
   const { comicID } = useParams();
@@ -51,6 +52,7 @@ const Comic = () => {
           }
           alt=""
         />
+        <SaveIcon type={"comic"} itemID={comicID} />
       </div>
       <div className="comic-title">{comic.title}</div>
       <div className="comic-description">{comic.description}</div>

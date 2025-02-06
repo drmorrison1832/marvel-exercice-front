@@ -172,23 +172,6 @@ a:hover {
         height: 100%;
       }
     }
-
-    .save-icon-container {
-      color: red;
-      text-shadow: #61dafbaa;
-      background: #000;
-      width: 1.1em;
-      height: 1em;
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      font-size: 1.5em;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      // width: 100%;
-      border-radius: 10px 0 0 0;
-    }
   }
 }
 
@@ -204,6 +187,23 @@ a:hover {
       font-size: 0.95em;
     }
   }
+}
+
+.save-icon-container {
+  color: red;
+  text-shadow: #61dafbaa;
+  background: #000;
+  width: 1.1em;
+  height: 1em;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-size: 1.5em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  // width: 100%;
+  border-radius: 10px 0 0 0;
 }
 
 .pagination {
@@ -227,9 +227,11 @@ a:hover {
   align-items: center;
 
   .comic-thumbnail-container {
-    width: 100%;
+    // width: 100%;
     display: flex;
     justify-content: center;
+    font-size: 1.5em;
+    position: relative;
     img {
       // width: 100%;
     }
@@ -288,6 +290,8 @@ a:hover {
   align-items: center;
 
   .character-thumbnail-container {
+    position: relative;
+    font-size: 1.5em;
     // height: 233px;
     img {
       // width: 100%;
