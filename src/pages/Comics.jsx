@@ -11,7 +11,6 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   const [title, setTitle] = useState("");
   const [limit, setLimit] = useState(100);
   const [skip, setSkip] = useState(0);
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,7 +22,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         );
         console.log("Comics retrieved...");
 
-        console.log(response.data.count);
+        // console.log(response.data.count);
 
         setData(response.data);
         setIsLoading(false);
@@ -35,7 +34,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
     }
 
     fetchData();
-  }, [page, title, skip, limit]);
+  }, [title, skip, limit]);
 
   console.log("Rendering Comics");
 
@@ -49,30 +48,29 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
 
   return (
     <>
-      <SearchBar setValue={setTitle} count={data.count} type="comic" />
+      <SearchBar
+        value={title}
+        setValue={setTitle}
+        count={data.count}
+        type="comic"
+        skip={skip}
+        setSkip={setSkip}
+      />
 
       <Pagination
         count={data.count}
-        page={page}
-        setPage={setPage}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
         type="comic"
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
       />
       <Gallery type="comic" items={data.results} count={data.count} />
       <Pagination
         count={data.count}
-        page={page}
-        setPage={setPage}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
         type="comic"
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
       />
     </>
   );

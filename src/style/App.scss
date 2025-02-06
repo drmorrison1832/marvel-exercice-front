@@ -192,9 +192,10 @@ a:hover {
   }
 }
 
+// border: 3px solid white;
+
 .search-form {
   margin-top: 1em;
-  // border: 1px solid white;
   width: 100%;
   input {
     width: 60%;
@@ -212,6 +213,9 @@ a:hover {
   gap: 1.2em;
   .button:hover {
     cursor: pointer;
+  }
+  .disabled {
+    color: gray;
   }
 }
 

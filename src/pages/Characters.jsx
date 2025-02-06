@@ -9,9 +9,8 @@ const Characters = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [name, setName] = useState("");
-  const [limit, setLimit] = useState(48);
   const [skip, setSkip] = useState(0);
-  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(4);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,13 +31,7 @@ const Characters = () => {
     fetchData();
   }, [name, skip, limit]);
 
-  // useEffect(() => {
-  //   function resetPagination() {
-  //     setPage(1);
-  //     setSkip(0);
-  //   }
-  //   resetPagination();
-  // }, [name]);
+  console.log("Rendering Characters");
 
   if (isLoading) {
     return <div className="is-loading">Chargement...</div>;
@@ -50,16 +43,20 @@ const Characters = () => {
 
   return (
     <>
-      <SearchBar setValue={setName} count={data.count} type="character" />
+      <SearchBar
+        value={name}
+        setValue={setName}
+        count={data.count}
+        skip={skip}
+        setSkip={setSkip}
+        type="character"
+      />
       <Pagination
         count={data.count}
-        page={page}
-        setPage={setPage}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
         type="character"
-        setIsLoading={setIsLoading}
       />
       <Gallery
         type="character"
@@ -69,13 +66,10 @@ const Characters = () => {
       />
       <Pagination
         count={data.count}
-        page={page}
-        setPage={setPage}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
         type="character"
-        setIsLoading={setIsLoading}
       />
     </>
   );
