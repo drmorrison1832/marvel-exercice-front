@@ -73,7 +73,13 @@ const Character = ({
           alt={data.name}
         />
 
-        <SaveIcon type="character" itemID={characterID} />
+        <SaveIcon
+          type="character"
+          itemID={characterID}
+          currentUser={currentUser}
+          currentUserSavedItems={currentUserSavedItems}
+          setCurrentUserSavedItems={setCurrentUserSavedItems}
+        />
       </div>
       <div className="character-name">{data.name}</div>
       <div className="character-description">
@@ -83,17 +89,26 @@ const Character = ({
       <div className="character-appearances-section">
         {data.comics.map((comic) => {
           return (
-            <Link to={`/comic/${comic._id}`} key={comic._id}>
-              <div className="character-appearance">
-                <div className="thumbnail-container">
+            <div className="character-appearance-comic" key={comic._id}>
+              <Link to={`/comic/${comic._id}`}>
+                <div className="caracter-appearance-comic-thumbnail-container">
                   <img
                     src={`${comic.thumbnail.path}/portrait_medium.${comic.thumbnail.extension}`}
                     alt={comic.title}
                   />
                 </div>
-                <div className="character-appearance-title">{comic.title}</div>
+              </Link>
+              <div className="character-appearance-title">
+                {comic.title}
+                <SaveIcon
+                  type="comic"
+                  itemID={comic._id}
+                  currentUser={currentUser}
+                  currentUserSavedItems={currentUserSavedItems}
+                  setCurrentUserSavedItems={setCurrentUserSavedItems}
+                />
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>

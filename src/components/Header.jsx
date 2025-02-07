@@ -4,9 +4,9 @@ import { useLocation } from "react-router-dom";
 
 const Header = ({
   currentUser,
-  setCurrentUser,
-  currentUserSavedItems,
-  setCurrentUserSavedItems,
+  // setCurrentUser,
+  // currentUserSavedItems,
+  // setCurrentUserSavedItems,
 }) => {
   let navigation = useLocation();
 
@@ -45,11 +45,12 @@ const Header = ({
         >
           <Link
             to="/user"
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            currentUserSavedItems={currentUserSavedItems}
-            setCurrentUserSavedItems={setCurrentUserSavedItems}
+            // currentUser={currentUser}
+            // setCurrentUser={setCurrentUser}
+            // currentUserSavedItems={currentUserSavedItems}
+            // setCurrentUserSavedItems={setCurrentUserSavedItems}
           >
+            {/* Account */}
             {currentUser ? `${currentUser.username}` : "Account"}
           </Link>
         </div>

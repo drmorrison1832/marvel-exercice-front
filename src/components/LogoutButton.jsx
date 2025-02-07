@@ -1,12 +1,18 @@
 import Cookies from "js-cookie";
 
-const LogoutButton = ({ cuurentUser, setCurrentUser }) => {
+const LogoutButton = ({
+  currentUser,
+  setCurrentUser,
+  setCurrentUserSavedItems,
+}) => {
   return (
     <button
       onClick={() => {
+        console.log("Logging out", currentUser.username);
+        localStorage.removeItem(currentUser.username);
         Cookies.remove("userCookie");
         setCurrentUser(null);
-        console.log(JSON.parse(localStorage.getItem("localUser")));
+        setCurrentUserSavedItems(null);
       }}
     >
       Logout

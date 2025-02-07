@@ -3,66 +3,72 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const LoginForm = ({
-  currentUser,
+  //   currentUser,
   setCurrentUser,
-  currentUserSavedItems,
+  //   currentUserSavedItems,
   setCurrentUserSavedItems,
 }) => {
   console.log("Rendering LoginForm");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState();
+  const [isConnecting, setIsConnecting] = useState(false);
 
   async function handleSubmit() {
-    setError(null);
-
-    if (username === "" || password === "") {
-      return setError("Missing username or password");
-    }
-
     console.log("Logging in...");
+    setError(null);
+    setIsConnecting(true);
+
     try {
+      if (username === "" || password === "") {
+        setIsConnecting(false);
+        throw new Error("Missing username or password");
+      }
+
       let userResponse = await axios.post(
         // "https://site--marvel-back--44tkxvkbbxk5.code.run/login",
         "http://localhost:3000/user/login",
         { username, password }
       );
-      console.log("Logged in");
+      console.log("Login sucessfull");
 
-      const cookieContent = {
-        token: userResponse.data.token,
-        username: userResponse.data.username,
-      };
+      console.log("Retrieving saved items...");
 
-      console.log("Retrieving user collection...");
-
-      const token = userResponse.data.token;
-
-      let collectionResponse = await axios.get(
+      const savedItemsResponse = await axios.get(
         // "https://site--marvel-back--44tkxvkbbxk5.code.run/login",
         "http://localhost:3000/saved",
-        { headers: { authorization: `Bearer ${token}` } }
+        { headers: { authorization: `Bearer ${userResponse.data.token}` } }
       );
-      //   console.log("Collection retrieved:");
-      //   console.log(collectionResponse.data);
+      console.log("Saved Items retrieved:");
+      console.log(savedItemsResponse.data);
 
-      Cookies.set("userCookie", JSON.stringify(cookieContent));
+      const userCookie = {
+        username: userResponse.data.username,
+        token: userResponse.data.token,
+      };
+      Cookies.set("userCookie", JSON.stringify(userCookie));
+
+      localStorage.removeItem(`${userCookie.username}`);
 
       localStorage.setItem(
-        `${userResponse.data.username}`,
-        JSON.stringify(collectionResponse.data)
+        `${userCookie.username}`,
+        JSON.stringify(savedItemsResponse.data)
       );
 
-      setCurrentUser(cookieContent);
-      setCurrentUserSavedItems(collectionResponse.data);
-
+      setCurrentUser(userCookie);
+      setCurrentUserSavedItems(savedItemsResponse.data);
       setUsername("");
       setPassword("");
+      setIsConnecting(false);
     } catch (error) {
-      console.error("Server response:", error.response.data.message);
-      setError(error.response.data.message);
+      console.log(error.message);
+      console.log(
+        "Server response:",
+        error.response?.data?.message ?? error?.message
+      );
+      setError(error.response?.data?.message ?? error?.message);
+      setIsConnecting(false);
     }
   }
 
@@ -91,8 +97,8 @@ const LoginForm = ({
           setPassword(event.target.value);
         }}
       />
-      {error && <div>{error}</div>}
-      <input type="submit" value="Login" />
+      {error && <div className="error-message">{error}</div>}
+      <input type="submit" value="Login" disabled={isConnecting} />
     </form>
   );
 };

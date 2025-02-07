@@ -22,7 +22,7 @@ const Gallery = ({
           return (
             <article className={`article ${type}-article`} key={item._id}>
               <Link to={`/${type}/${item._id}`}>
-                <div className="item-title">{item.title ?? item.name}</div>
+                {/* <div className="item-title">{item.title ?? item.name}</div> */}
 
                 <div className={`${type}-thumbnail-container`}>
                   <img
@@ -31,9 +31,7 @@ const Gallery = ({
                   />
                 </div>
               </Link>
-              {/* <div className="item-description">
-                {item.description || "No description."}
-              </div> */}
+
               <SaveIcon
                 type={type}
                 itemID={item._id}

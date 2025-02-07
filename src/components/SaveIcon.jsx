@@ -5,7 +5,6 @@ const SaveIcon = ({
   type,
   itemID,
   currentUser,
-  setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
 }) => {
@@ -18,35 +17,32 @@ const SaveIcon = ({
 
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
 
-    // console.log(
-    //   `!tempCurrentUserSavedItems[${type}s] vaut`,
-    //   !tempCurrentUserSavedItems[`${type}s`]
-    // );
-
     if (!tempCurrentUserSavedItems[`${type}s`]) {
       tempCurrentUserSavedItems[`${type}s`] = [];
     }
 
-    !currentUserSavedItems?.[`${type}s`].includes(itemID) &&
-      currentUserSavedItems?.[`${type}s`].push(itemID);
+    !tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID) &&
+      tempCurrentUserSavedItems[`${type}s`].push(itemID);
 
     localStorage.setItem(
       `${currentUser?.username}`,
-      JSON.stringify(currentUserSavedItems)
+      JSON.stringify(tempCurrentUserSavedItems)
     );
     setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
   function handleUnsave(event, type, itemID) {
-    console.log("Unsave", itemID);
+    console.log("Unsaving", itemID);
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
     let index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
+    console.log(index);
     if (index === -1) {
       return;
     }
+    tempCurrentUserSavedItems[`${type}s`].splice(index, 1);
     localStorage.setItem(
       `${currentUser?.username}`,
-      JSON.stringify(tempCurrentUserSavedItems[`${type}s`].splice(index, 1))
+      JSON.stringify(tempCurrentUserSavedItems)
     );
     setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }

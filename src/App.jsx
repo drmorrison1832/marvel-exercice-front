@@ -20,7 +20,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(Cookies.get("userCookie") ?? null)
   );
-  // console.log("currentUser is", currentUser);
+  console.log("currentUser is", currentUser);
 
   const [currentUserSavedItems, setCurrentUserSavedItems] = useState(
     JSON.parse(localStorage.getItem(`${currentUser?.username}`)) ?? null

@@ -101,7 +101,6 @@ a:hover {
 .gallery {
   padding: 2em;
   display: flex;
-  // flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
@@ -150,7 +149,7 @@ a:hover {
       // white-space: nowrap;
     }
     .comic-thumbnail-container {
-      height: 233px;
+      // height: 233px;
       .comic-thumbnail {
         // margin-top: 1em;
         object-fit: fill;
@@ -204,7 +203,8 @@ a:hover {
   justify-content: center;
   align-items: center;
   // width: 100%;
-  border-radius: 10px 0 0 0;
+  border-radius: 0.5em 0 0 0;
+
   &:hover {
     cursor: pointer;
   }
@@ -260,29 +260,6 @@ a:hover {
     font-weight: 700;
     font-size: 1.2em;
   }
-  .character-appearances-section {
-    min-width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-  }
-
-  .character-appearance-title {
-    background: #000;
-
-    font-size: 0.7em;
-    overflow: hidden;
-  }
-  .character-appearance {
-    // border: 1px solid white;
-    width: 100px;
-    // height: 150px;
-    height: calc(150px + 1em);
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 // CHARACTER PAGE
@@ -328,7 +305,7 @@ a:hover {
     justify-content: space-evenly;
     flex-wrap: wrap;
   }
-  .character-appearance {
+  .character-appearance-comic {
     // border: 1px solid white;
     width: 100px;
     // height: 150px;
@@ -338,11 +315,20 @@ a:hover {
     flex-direction: column;
     align-items: center;
   }
+  .caracter-appearance-comic-thumbnail-container {
+    position: relative;
+    font-size: 0.7em;
+  }
 
   .character-appearance-title {
+    width: 100%;
     background: #000;
-
+    position: relative;
     font-size: 0.7em;
     overflow: hidden;
   }
+}
+
+.error-message {
+  color: red;
 }

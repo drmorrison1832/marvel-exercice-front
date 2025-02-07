@@ -58,7 +58,14 @@ const Comic = ({
           }
           alt=""
         />
-        <SaveIcon type={"comic"} itemID={comicID} />
+        <SaveIcon
+          type={"comic"}
+          itemID={comicID}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          currentUserSavedItems={currentUserSavedItems}
+          setCurrentUserSavedItems={setCurrentUserSavedItems}
+        />
       </div>
       <div className="comic-title">{comic.title}</div>
       <div className="comic-description">{comic.description}</div>
