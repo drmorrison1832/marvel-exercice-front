@@ -1,54 +1,80 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 
-const SaveIcon = ({ type, itemID }) => {
-  const [localUser, setLocalUser] = useState(
-    JSON.parse(localStorage.getItem("localUser"))
-  );
+const SaveIcon = ({
+  type,
+  itemID,
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
+  console.log("SaveIcon");
 
   function handleSave(event, type, itemID) {
-    console.log("save", itemID);
-    let tempLocalUser = JSON.parse(localStorage.getItem("localUser"));
-    // let newLocalUser = { ...localUser };
-    !tempLocalUser.saved[`${type}s`].includes(itemID) &&
-      tempLocalUser.saved[`${type}s`].push(itemID);
-    localStorage.setItem("localUser", JSON.stringify(tempLocalUser));
-    setLocalUser(tempLocalUser);
+    console.log("Saving", itemID);
+
+    // console.log("currentUserSavedItems is", currentUserSavedItems);
+
+    let tempCurrentUserSavedItems = { ...currentUserSavedItems };
+
+    // console.log(
+    //   `!tempCurrentUserSavedItems[${type}s] vaut`,
+    //   !tempCurrentUserSavedItems[`${type}s`]
+    // );
+
+    if (!tempCurrentUserSavedItems[`${type}s`]) {
+      tempCurrentUserSavedItems[`${type}s`] = [];
+    }
+
+    !currentUserSavedItems?.[`${type}s`].includes(itemID) &&
+      currentUserSavedItems?.[`${type}s`].push(itemID);
+
+    localStorage.setItem(
+      `${currentUser?.username}`,
+      JSON.stringify(currentUserSavedItems)
+    );
+    setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
   function handleUnsave(event, type, itemID) {
-    console.log("unsave", itemID);
-    let tempLocalUser = JSON.parse(localStorage.getItem("localUser"));
-    let index = tempLocalUser.saved[`${type}s`].indexOf(itemID);
+    console.log("Unsave", itemID);
+    let tempCurrentUserSavedItems = { ...currentUserSavedItems };
+    let index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
     if (index === -1) {
       return;
     }
-    tempLocalUser.saved[`${type}s`].splice(index, 1);
-    localStorage.setItem("localUser", JSON.stringify(tempLocalUser));
-    setLocalUser(tempLocalUser);
+    localStorage.setItem(
+      `${currentUser?.username}`,
+      JSON.stringify(tempCurrentUserSavedItems[`${type}s`].splice(index, 1))
+    );
+    setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
   return (
-    <>
-      {localUser.saved[`${type}s`].includes(itemID) ? (
-        <div
-          className="save-icon-container"
-          onClick={(event) => {
-            handleUnsave(event, type, itemID);
-          }}
-        >
-          ♥︎
-        </div>
-      ) : (
-        <div
-          className="save-icon-container"
-          onClick={(event) => {
-            handleSave(event, type, itemID);
-          }}
-        >
-          ♡
-        </div>
-      )}
-    </>
+    currentUser && (
+      <>
+        {currentUserSavedItems?.[`${type}s`]?.includes(itemID) ? (
+          <div
+            className="save-icon-container"
+            onClick={(event) => {
+              handleUnsave(event, type, itemID);
+            }}
+          >
+            ♥︎
+          </div>
+        ) : (
+          <div
+            className="save-icon-container"
+            onClick={(event) => {
+              handleSave(event, type, itemID);
+            }}
+          >
+            ♡
+          </div>
+        )}
+      </>
+    )
   );
 };
 

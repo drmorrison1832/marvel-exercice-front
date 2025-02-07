@@ -1,92 +1,152 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Gallery from "../components/Gallery";
+import LoginForm from "../components/LoginForm";
+import Cookies from "js-cookie";
+import LogoutButton from "../components/LogoutButton";
 
-const User = () => {
-  const [localUser, setLocalUser] = useState(
-    JSON.parse(localStorage.getItem("localUser"))
-  );
+const User = () =>
+  // {
+  // currentUser,
+  // setCurrentUser,
+  // currentUserSavedItems,
+  // setCurrentUserSavedItems,
+  // }
+  {
+    console.log("Rendering User");
 
-  const [localData, setLocalData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState();
+    const [currentUser, setCurrentUser] = useState(
+      JSON.parse(Cookies.get("userCookie") ?? null)
+    );
+    console.log("currentUser is", currentUser);
 
-  useEffect(() => {
+    const [currentUserSavedItems, setCurrentUserSavedItems] = useState(
+      JSON.parse(localStorage.getItem(`${currentUser?.username}`)) ?? null
+    );
+    console.log("currentUserSavedItems is", currentUserSavedItems);
+
+    const [localCollectionData, setLocalCollectionData] = useState(
+      new Object()
+    );
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [comicsNotFound, setComicsNotFound] = useState(false);
+    const [charactersNotFound, setCharactersNotFound] = useState(false);
+
+    useEffect(() => {
+      currentUser && getData();
+    }, [currentUser, currentUserSavedItems]);
+
+    useEffect(() => {
+      !currentUser && setIsLoading(false);
+    });
+
     async function getData() {
       console.log("Retrieving data...");
-      let newLocalData = { comics: [], characters: [] };
+      setError(null);
+      let newLocalCollectionData = {
+        comics: new Array(),
+        characters: new Array(),
+      };
       try {
-        // let retrievedComics = [];
-        for (let comic of localUser.saved.comics) {
-          let response = await axios(
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
+        for (let comic of currentUserSavedItems.comics) {
+          let comicResponse = await axios(
+            `http://localhost:3000/comic/${comic}`
+            // `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
           );
-          newLocalData.comics.push(response.data);
+
+          comicResponse.data
+            ? newLocalCollectionData.comics.push(comicResponse.data)
+            : setComicsNotFound(true);
         }
-        for (let character of localUser.saved.characters) {
-          let response = await axios(
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
+
+        for (let character of currentUserSavedItems.characters) {
+          let characterResponse = await axios(
+            `http://localhost:3000/character/${character}`
+            // `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
           );
-          newLocalData.characters.push(response.data);
+
+          characterResponse.data
+            ? newLocalCollectionData.characters.push(characterResponse.data)
+            : setCharactersNotFound(true);
         }
+
         console.log("Data retrieved");
-        setLocalData(newLocalData);
+        setLocalCollectionData(newLocalCollectionData);
+        setError(null);
         setIsLoading(false);
       } catch (error) {
-        console.log(error?.message);
-        setError(true);
+        console.log(error.message);
+        setError(error.message);
         setIsLoading(false);
       }
     }
-    getData();
-  }, [localUser]);
 
-  // console.log(localUser);
+    if (currentUser && isLoading) {
+      return <div>Loading...</div>;
+    }
 
-  if (isLoading) {
+    if (error) {
+      return <div>Oups</div>;
+    }
+
     return (
-      <div className="user-saved">
-        <h1>{localUser.username}</h1>
-        <div className="user-saved-comics">
-          <h2>Saved comics</h2>
-          <ul>
-            {localUser.saved.comics.map((comic, index) => {
-              return <li key={index}>{comic}</li>;
-            })}
-          </ul>
-        </div>
-        <div className="user-saved-characters">
-          <h2>Saved characters</h2>
-          <ul>
-            {localUser.saved.characters.map((comic, index) => {
-              return <li key={index}>{comic}</li>;
-            })}
-          </ul>
-        </div>
-      </div>
-    );
-  }
+      <section className="user-saved">
+        {currentUser ? (
+          <LogoutButton
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+          />
+        ) : (
+          <div>
+            <p>Create an account or login to create a collection.</p>
+            <LoginForm
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          </div>
+        )}
 
-  return (
-    <div className="user-saved">
-      <h1>{localUser.username}</h1>
-      <h2>Saved comics</h2>
-      <div className="user-saved-comics">
-        <Gallery
-          type="comic"
-          items={localData.comics}
-          count={localData.comics.length}
-        />
-      </div>
-      <div className="user-saved-characters"></div>
-      <h2>Saved characters</h2>
-      <Gallery
-        type="character"
-        items={localData.characters}
-        count={localData.characters.length}
-      />
-    </div>
-  );
-};
+        {/* <h1>{localUser.username}</h1> */}
+        {currentUser && (
+          <section>
+            <h2>Saved comics</h2>
+            <div className="user-saved-comics">
+              {comicsNotFound && (
+                <div>
+                  ⚠️ Some comics couldn't be retrieved from Marvel Database
+                </div>
+              )}
+              <Gallery
+                type="comic"
+                items={localCollectionData.comics}
+                count={localCollectionData.comics.length}
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            </div>
+            <div className="user-saved-characters"></div>
+            <h2>Saved characters</h2>
+            {charactersNotFound && (
+              <div>
+                ⚠️ Some characters couldn't be retrieved from Marvel Database
+              </div>
+            )}
+            <Gallery
+              type="character"
+              items={localCollectionData.characters}
+              count={localCollectionData.characters.length}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+              currentUserSavedItems={currentUserSavedItems}
+              setCurrentUserSavedItems={setCurrentUserSavedItems}
+            />{" "}
+          </section>
+        )}
+      </section>
+    );
+  };
 
 export default User;

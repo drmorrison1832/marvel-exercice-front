@@ -4,12 +4,19 @@ import Gallery from "../components/Gallery";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
 
-const Comics = ({ setShowModalsContainer, setModalToShow }) => {
+const Comics = ({
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+  setShowModalsContainer,
+  setModalToShow,
+}) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [title, setTitle] = useState("");
-  const [limit, setLimit] = useState(100);
+  const [limit, setLimit] = useState(25);
   const [skip, setSkip] = useState(0);
 
   useEffect(() => {
@@ -25,6 +32,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         // console.log(response.data.count);
 
         setData(response.data);
+        setError(null);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -39,7 +47,7 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
   console.log("Rendering Comics");
 
   if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
+    return <div className="is-loading">Loading...</div>;
   }
 
   if (error) {
@@ -64,7 +72,16 @@ const Comics = ({ setShowModalsContainer, setModalToShow }) => {
         setSkip={setSkip}
         type="comic"
       />
-      <Gallery type="comic" items={data.results} count={data.count} />
+      <Gallery
+        type="comic"
+        items={data.results}
+        count={data.count}
+        isLoading={isLoading}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        currentUserSavedItems={currentUserSavedItems}
+        setCurrentUserSavedItems={setCurrentUserSavedItems}
+      />
       <Pagination
         count={data.count}
         limit={limit}

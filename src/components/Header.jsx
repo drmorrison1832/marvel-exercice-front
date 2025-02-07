@@ -2,7 +2,12 @@ import { Link } from "react-router-dom";
 import marvelLogo from "../assets/marvel-logo.svg";
 import { useLocation } from "react-router-dom";
 
-const Header = () => {
+const Header = ({
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
   let navigation = useLocation();
 
   return (
@@ -38,7 +43,15 @@ const Header = () => {
               : `header-navigator off`
           }
         >
-          <Link to="/user">User</Link>
+          <Link
+            to="/user"
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            currentUserSavedItems={currentUserSavedItems}
+            setCurrentUserSavedItems={setCurrentUserSavedItems}
+          >
+            {currentUser ? `${currentUser.username}` : "Account"}
+          </Link>
         </div>
       </nav>
     </header>

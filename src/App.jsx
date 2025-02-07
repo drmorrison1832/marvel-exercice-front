@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 import "./style/App.scss";
 
@@ -16,32 +17,102 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
-  useEffect(() => {
-    function createLocalUser() {
-      const localUser = {
-        username: "New user",
-        saved: { comics: [], characters: [] },
-      };
-      if (!localStorage.getItem("localUser")) {
-        localStorage.setItem("localUser", JSON.stringify(localUser));
-      }
-    }
-    createLocalUser();
-    // console.log(JSON.parse(localStorage.getItem("localUser")));
-  }, []);
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(Cookies.get("userCookie") ?? null)
+  );
+  // console.log("currentUser is", currentUser);
+
+  const [currentUserSavedItems, setCurrentUserSavedItems] = useState(
+    JSON.parse(localStorage.getItem(`${currentUser?.username}`)) ?? null
+  );
 
   return (
     <>
-      <Header />
+      <Header
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        currentUserSavedItems={currentUserSavedItems}
+        setCurrentUserSavedItems={setCurrentUserSavedItems}
+      />
       <main className="main">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/comics" element={<Comics />} />
-          <Route path="/comic/:comicID" element={<Comic />} />
-          <Route path="/character/:characterID" element={<Character />} />
-          <Route path="/characters" element={<Characters />} />
-          <Route path="/user" element={<User />} />
-          <Route path="*" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="/comics"
+            element={
+              <Comics
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="/comic/:comicID"
+            element={
+              <Comic
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="/character/:characterID"
+            element={
+              <Character
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="/characters"
+            element={
+              <Characters
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <User
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Home
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
+            }
+          />
         </Routes>
       </main>
       {showModalsContainer && (

@@ -2,9 +2,17 @@ import { Link } from "react-router-dom";
 // import { useState, useEffect } from "react";
 import SaveIcon from "./SaveIcon";
 
-const Gallery = ({ type, items, isLoading }) => {
+const Gallery = ({
+  type,
+  items,
+  isLoading,
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
   if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
+    return <div className="is-loading">Loading...</div>;
   }
 
   return (
@@ -26,7 +34,14 @@ const Gallery = ({ type, items, isLoading }) => {
               {/* <div className="item-description">
                 {item.description || "No description."}
               </div> */}
-              <SaveIcon type={type} itemID={item._id} />
+              <SaveIcon
+                type={type}
+                itemID={item._id}
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                currentUserSavedItems={currentUserSavedItems}
+                setCurrentUserSavedItems={setCurrentUserSavedItems}
+              />
             </article>
           );
         })}

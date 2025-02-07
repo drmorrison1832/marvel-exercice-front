@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SaveIcon from "../components/SaveIcon";
 
-const Character = () => {
+const Character = ({
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
   const { characterID } = useParams();
 
   const [data, setData] = useState();
@@ -41,6 +46,7 @@ const Character = () => {
         }
 
         setData(response.data);
+        setError(null);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -52,7 +58,7 @@ const Character = () => {
   }, []);
 
   if (isLoading || isComicsDataLoading) {
-    return <div className="is-loading">Chargement...</div>;
+    return <div className="is-loading">Loading...</div>;
   }
 
   if (error || comicsDataError) {
@@ -66,6 +72,7 @@ const Character = () => {
           src={`${data.thumbnail.path}.${data.thumbnail.extension}`}
           alt={data.name}
         />
+
         <SaveIcon type="character" itemID={characterID} />
       </div>
       <div className="character-name">{data.name}</div>

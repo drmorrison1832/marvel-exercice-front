@@ -4,13 +4,18 @@ import SearchBar from "../components/SearchBar";
 import Gallery from "../components/Gallery";
 import Pagination from "../components/Pagination";
 
-const Characters = () => {
+const Characters = ({
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [name, setName] = useState("");
   const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(25);
 
   useEffect(() => {
     async function fetchData() {
@@ -21,6 +26,7 @@ const Characters = () => {
         );
         console.log("Characters retrieved...");
         setData(response.data);
+        setError(null);
         setIsLoading(false);
       } catch (error) {
         console.log(error.message);
@@ -34,7 +40,7 @@ const Characters = () => {
   console.log("Rendering Characters");
 
   if (isLoading) {
-    return <div className="is-loading">Chargement...</div>;
+    return <div className="is-loading">Loading...</div>;
   }
 
   if (error) {
@@ -63,6 +69,10 @@ const Characters = () => {
         items={data.results}
         count={data.count}
         isLoading={isLoading}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        currentUserSavedItems={currentUserSavedItems}
+        setCurrentUserSavedItems={setCurrentUserSavedItems}
       />
       <Pagination
         count={data.count}

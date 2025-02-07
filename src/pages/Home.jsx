@@ -1,7 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const Home = () => {
+const Home = ({
+  currentUser,
+  setCurrentUser,
+  currentUserSavedItems,
+  setCurrentUserSavedItems,
+}) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -15,7 +20,7 @@ const Home = () => {
   }, []);
 
   // if (isLoading) {
-  //   return <div className="is-loading">Home: Chargement...</div>;
+  //   return <div className="is-loading">Home: Loading...</div>;
   // }
 
   // if (error) {
