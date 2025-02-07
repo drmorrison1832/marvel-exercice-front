@@ -17,6 +17,8 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
+  const [isSynchronizing, setIsSynchronizing] = useState();
+
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(Cookies.get("userCookie") ?? null)
   );
@@ -55,6 +57,8 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -66,6 +70,8 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -77,6 +83,8 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -88,6 +96,8 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -99,6 +109,8 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />

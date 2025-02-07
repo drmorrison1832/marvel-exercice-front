@@ -10,6 +10,8 @@ const User = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
+  isSynchronizing,
+  setIsSynchronizing,
 }) => {
   console.log("Rendering User");
 
@@ -124,6 +126,8 @@ const User = ({
               setCurrentUser={setCurrentUser}
               currentUserSavedItems={currentUserSavedItems}
               setCurrentUserSavedItems={setCurrentUserSavedItems}
+              isSynchronizing={isSynchronizing}
+              setIsSynchronizing={setIsSynchronizing}
             />
           </div>
           <div className="user-saved-characters"></div>
@@ -141,6 +145,8 @@ const User = ({
             setCurrentUser={setCurrentUser}
             currentUserSavedItems={currentUserSavedItems}
             setCurrentUserSavedItems={setCurrentUserSavedItems}
+            isSynchronizing={isSynchronizing}
+            setIsSynchronizing={setIsSynchronizing}
           />{" "}
         </section>
       )}

@@ -35,10 +35,13 @@ const LoginForm = ({
 
       console.log("Retrieving saved items...");
 
+      const config = {
+        headers: { authorization: `Bearer ${userResponse.data.token}` },
+      };
       const savedItemsResponse = await axios.get(
         // "https://site--marvel-back--44tkxvkbbxk5.code.run/login",
         "http://localhost:3000/saved",
-        { headers: { authorization: `Bearer ${userResponse.data.token}` } }
+        config
       );
       console.log("Saved Items retrieved:");
       console.log(savedItemsResponse.data);

@@ -9,6 +9,8 @@ const Characters = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
+  isSynchronizing,
+  setIsSynchronizing,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);

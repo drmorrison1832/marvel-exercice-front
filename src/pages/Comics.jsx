@@ -11,6 +11,8 @@ const Comics = ({
   setCurrentUserSavedItems,
   setShowModalsContainer,
   setModalToShow,
+  isSynchronizing,
+  setIsSynchronizing,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
