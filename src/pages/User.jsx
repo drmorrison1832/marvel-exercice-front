@@ -44,8 +44,8 @@ const User = ({
       try {
         for (let comic of currentUserSavedItems.comics) {
           let comicResponse = await axios(
-            `http://localhost:3000/comic/${comic}`
-            // `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
+            // `http://localhost:3000/comic/${comic}`
+            `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
           );
 
           comicResponse.data
@@ -55,8 +55,8 @@ const User = ({
 
         for (let character of currentUserSavedItems.characters) {
           let characterResponse = await axios(
-            `http://localhost:3000/character/${character}`
-            // `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
+            // `http://localhost:3000/character/${character}`
+            `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
           );
 
           characterResponse.data
@@ -77,11 +77,24 @@ const User = ({
     currentUser && getData();
   }, [currentUser, currentUserSavedItems]);
 
-  useEffect(() => {
-    !currentUser && setIsLoading(false);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   !currentUser && setIsLoading(false);
+  // }, [currentUser]);
 
-  if (currentUser && isLoading) {
+  if (!currentUser) {
+    return (
+      <div>
+        <p>Create an account or login to create a collection.</p>
+        <LoginForm
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          setCurrentUserSavedItems={setCurrentUserSavedItems}
+        />
+      </div>
+    );
+  }
+
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
@@ -90,67 +103,51 @@ const User = ({
   }
 
   return (
-    <section className="user-saved">
-      {currentUser ? (
-        <LogoutButton
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-          setCurrentUserSavedItems={setCurrentUserSavedItems}
-        />
-      ) : (
-        <div>
-          <p>Create an account or login to create a collection.</p>
-          <LoginForm
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            setCurrentUserSavedItems={setCurrentUserSavedItems}
-          />
-        </div>
-      )}
+    <div className="user-saved">
+      <LogoutButton
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        setCurrentUserSavedItems={setCurrentUserSavedItems}
+      />
 
-      {/* <h1>{localUser.username}</h1> */}
-      {currentUser && (
-        <section>
-          <h2>Saved comics</h2>
-          <div className="user-saved-comics">
-            {comicsNotFound && (
-              <div>
-                ⚠️ Some comics couldn't be retrieved from Marvel Database
-              </div>
-            )}
-            <Gallery
-              type="comic"
-              items={currentUserSavedItemsData.comics}
-              count={currentUserSavedItemsData.comics.length}
-              currentUser={currentUser}
-              setCurrentUser={setCurrentUser}
-              currentUserSavedItems={currentUserSavedItems}
-              setCurrentUserSavedItems={setCurrentUserSavedItems}
-              isSynchronizing={isSynchronizing}
-              setIsSynchronizing={setIsSynchronizing}
-            />
-          </div>
-          <div className="user-saved-characters"></div>
-          <h2>Saved characters</h2>
-          {charactersNotFound && (
-            <div>
-              ⚠️ Some characters couldn't be retrieved from Marvel's database
-            </div>
+      <section>
+        <h2>Saved comics</h2>
+        <div className="user-saved-comics">
+          {comicsNotFound && (
+            <div>⚠️ Some comics couldn't be retrieved from Marvel Database</div>
           )}
           <Gallery
-            type="character"
-            items={currentUserSavedItemsData.characters}
-            count={currentUserSavedItemsData.characters.length}
+            type="comic"
+            items={currentUserSavedItemsData.comics}
+            count={currentUserSavedItemsData.comics.length}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             currentUserSavedItems={currentUserSavedItems}
             setCurrentUserSavedItems={setCurrentUserSavedItems}
             isSynchronizing={isSynchronizing}
             setIsSynchronizing={setIsSynchronizing}
-          />{" "}
-        </section>
-      )}
-    </section>
+          />
+        </div>
+        <div className="user-saved-characters"></div>
+        <h2>Saved characters</h2>
+        {charactersNotFound && (
+          <div>
+            ⚠️ Some characters couldn't be retrieved from Marvel's database
+          </div>
+        )}
+        <Gallery
+          type="character"
+          items={currentUserSavedItemsData.characters}
+          count={currentUserSavedItemsData.characters.length}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          currentUserSavedItems={currentUserSavedItems}
+          setCurrentUserSavedItems={setCurrentUserSavedItems}
+          isSynchronizing={isSynchronizing}
+          setIsSynchronizing={setIsSynchronizing}
+        />{" "}
+      </section>
+    </div>
   );
 };
 
