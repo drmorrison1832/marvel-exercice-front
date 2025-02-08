@@ -6,18 +6,36 @@ const SaveIcon = ({
   type,
   itemID,
   currentUser,
+  setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
   isSynchronizing,
   setIsSynchronizing,
 }) => {
-  console.log("Rendering SaveIcon");
+  console.log("RenderingSaveIcon");
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // const [tempCurrentUserSavedItems, settempCurrentUserSavedItems] = useState();
+
+  // useEffect(() => {
+  //   const debouncesetCurrentUserSavedItems = setTimeout(() => {}, 500);
+  //   return () => {
+  //     clearTimeout(debouncesetCurrentUserSavedItems);
+  //   };
+  // }, [tempCurrentUserSavedItems]);
+
   async function handleSaved(action, type, itemID) {
     setError(null);
+
+    if (!Cookies.get("userCookie")) {
+      console.log("Has been disconnected");
+      setCurrentUser(null);
+      setCurrentUserSavedItems(null);
+      return;
+    }
+
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
 
     switch (action) {
@@ -58,8 +76,8 @@ const SaveIcon = ({
       const body = {};
       body[type] = itemID;
       const response = await axios.put(
-        // "https://site--marvel-back--44tkxvkbbxk5.code.run/save",
-        `http://localhost:3000/${action}`,
+        `https://site--marvel-back--44tkxvkbbxk5.code.run/${action}`,
+        // `http://localhost:3000/${action}`,
         body,
         config
       );

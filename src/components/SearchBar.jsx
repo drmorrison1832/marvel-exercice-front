@@ -24,7 +24,9 @@ const SearchBar = ({ value, setValue, count, skip, setSkip, type }) => {
       <input
         type="text"
         id="search-bar"
-        placeholder={`Search among ${count} ${type}s`}
+        placeholder={
+          count ? `Search among ${count} ${type}s` : "Start searching"
+        }
         value={newValue}
         onChange={(event) => {
           setNewValue(event.target.value);

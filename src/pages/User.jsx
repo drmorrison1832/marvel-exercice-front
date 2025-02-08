@@ -23,6 +23,30 @@ const User = ({
   const [comicsNotFound, setComicsNotFound] = useState(false);
   const [charactersNotFound, setCharactersNotFound] = useState(false);
 
+  //   useEffect(() => {
+  //     console.log("isStillLogged?");
+  //     if (!Cookies.get("userCookie")) {
+  //       console.log("Logged out! Resetting currentUser");
+  //       setCurrentUser(null);
+  //       setCurrentUserSavedItems(null);
+  //       setCurrentUserSavedItemsData(null);
+  //     } else {
+  //       if (JSON.parse(Cookies.get("userCookie")).token !== currentUser.token) {
+  //         console.log("New login! Updating currentUser");
+  //         setCurrentUser(JSON.parse(Cookies.get("userCookie")));
+  //         setCurrentUserSavedItems(null);
+  //         setCurrentUserSavedItemsData(null);
+
+  // ///////// Véifier si setIsLoading(true) provoque un loop éternel
+
+  //         // setIsLoading(true);
+
+  // //////////////////
+
+  //       }
+  //     }
+  //   });
+
   useEffect(() => {
     async function getSavedItems() {
       console.log("Retrieving saved items...");
@@ -119,7 +143,7 @@ const User = ({
   if (!currentUser) {
     return (
       <div>
-        <p>Create an account or login to create a collection.</p>
+        {/* <p>Create an account or login to create a collection.</p> */}
         <LoginForm
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
@@ -151,6 +175,9 @@ const User = ({
           {comicsNotFound && (
             <div>⚠️ Some comics couldn't be retrieved from Marvel Database</div>
           )}
+          {!currentUserSavedItemsData.comics.length && (
+            <p>No comics saved yet</p>
+          )}
           <Gallery
             type="comic"
             items={currentUserSavedItemsData.comics}
@@ -165,6 +192,9 @@ const User = ({
         </div>
         <div className="user-saved-characters"></div>
         <h2>Saved characters</h2>
+        {!currentUserSavedItemsData.characters.length && (
+          <p>No comics saved yet</p>
+        )}
         {charactersNotFound && (
           <div>
             ⚠️ Some characters couldn't be retrieved from Marvel's database

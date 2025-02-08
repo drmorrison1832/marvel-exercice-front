@@ -14,11 +14,19 @@ const LoginForm = ({
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
   const [isConnecting, setIsConnecting] = useState(false);
+  const [action, setAction] = useState("login");
 
   async function handleSubmit() {
-    console.log("Logging in...");
     setError(null);
     setIsConnecting(true);
+
+    console.log("action is", action);
+
+    if (action === "login") {
+      console.log("Logging in...");
+    } else {
+      console.log("Signing in...");
+    }
 
     try {
       if (username === "" || password === "") {
@@ -26,12 +34,21 @@ const LoginForm = ({
         throw new Error("Missing username or password");
       }
 
+      const route = action.replace(" ", "");
+
+      console.log("route es", route);
+
       let userResponse = await axios.post(
-        "https://site--marvel-back--44tkxvkbbxk5.code.run/user/login",
-        // "http://localhost:3000/user/login",
+        `https://site--marvel-back--44tkxvkbbxk5.code.run/user/${route}`,
+        // `http://localhost:3000/user/${route}`,
         { username, password }
       );
-      console.log("Login sucessfull");
+
+      if (action === "login") {
+        console.log("Login sucessfull");
+      } else {
+        console.log("Signed up sucessfull");
+      }
 
       console.log("Retrieving saved items...");
 
@@ -77,6 +94,7 @@ const LoginForm = ({
 
   return (
     <form
+      className="login-form"
       onSubmit={(event) => {
         event.preventDefault();
         handleSubmit();
@@ -101,7 +119,24 @@ const LoginForm = ({
         }}
       />
       {error && <div className="error-message">{error}</div>}
-      <input type="submit" value="Login" disabled={isConnecting} />
+      <input
+        className="button"
+        type="submit"
+        value={action}
+        disabled={isConnecting}
+      />
+      <p>
+        Or{" "}
+        <span
+          className="change-action"
+          onClick={() => {
+            action === "login" ? setAction("sign up") : setAction("login");
+            setError(null);
+          }}
+        >
+          {action === "login" ? "sign up" : "login"}
+        </span>
+      </p>
     </form>
   );
 };

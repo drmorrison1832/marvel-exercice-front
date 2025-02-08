@@ -22,6 +22,7 @@ const Characters = ({
   useEffect(() => {
     async function fetchData() {
       console.log("Retrieving characters...");
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/characters?name=${name}&limit=${limit}&skip=${skip}`
@@ -41,9 +42,9 @@ const Characters = ({
 
   console.log("Rendering Characters");
 
-  if (isLoading) {
-    return <div className="is-loading">Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="is-loading">Loading...</div>;
+  // }
 
   if (error) {
     return <div className="loading-error">Oups</div>;
@@ -54,13 +55,13 @@ const Characters = ({
       <SearchBar
         value={name}
         setValue={setName}
-        count={data.count}
+        count={data?.count ?? null}
         skip={skip}
         setSkip={setSkip}
         type="character"
       />
       <Pagination
-        count={data.count}
+        count={data?.count ?? null}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
@@ -68,8 +69,8 @@ const Characters = ({
       />
       <Gallery
         type="character"
-        items={data.results}
-        count={data.count}
+        items={data?.results}
+        count={data?.count}
         isLoading={isLoading}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
@@ -78,13 +79,15 @@ const Characters = ({
         isSynchronizing={isSynchronizing}
         setIsSynchronizing={setIsSynchronizing}
       />
-      <Pagination
-        count={data.count}
-        limit={limit}
-        skip={skip}
-        setSkip={setSkip}
-        type="character"
-      />
+      {!isLoading && (
+        <Pagination
+          count={data?.count ?? null}
+          limit={limit}
+          skip={skip}
+          setSkip={setSkip}
+          type="comic"
+        />
+      )}
     </>
   );
 };

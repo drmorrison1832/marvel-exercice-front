@@ -13,6 +13,8 @@ const Gallery = ({
   isSynchronizing,
   setIsSynchronizing,
 }) => {
+  console.log("Rendering Gallery...");
+
   if (isLoading) {
     return <div className="is-loading">Loading...</div>;
   }

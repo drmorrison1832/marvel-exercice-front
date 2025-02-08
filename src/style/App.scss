@@ -119,13 +119,6 @@ a:hover {
     margin-bottom: 1em;
     overflow: hidden;
 
-    .comic-article {
-      // height: 350px;
-    }
-    .character-article {
-      // height: 250px;
-    }
-
     .item-title {
       font-weight: 700;
       line-height: 1.5em;
@@ -133,7 +126,6 @@ a:hover {
       display: flex;
       justify-content: center;
       align-items: center;
-      // border: 1px solid white;
     }
     .item-description {
       display: flex;
@@ -150,25 +142,38 @@ a:hover {
     }
     .comic-thumbnail-container {
       // height: 233px;
-      .comic-thumbnail {
-        // margin-top: 1em;
-        object-fit: fill;
-        img {
-          // width: 100%;
-        }
-      }
-    }
-
-    .character-thumbnail-container {
-      // height: 300px;
-      aspect-ratio: 1/1;
+      // border: 1px solid white;
+      height: 100%;
       overflow: hidden;
-
       img {
         object-fit: cover;
         object-position: center left;
         width: 100%;
         height: 100%;
+        // &:hover {
+        //   object-position: center;
+        //   width: 105%;
+        //   height: 105%;
+        // }
+      }
+    }
+    .character-thumbnail-container {
+      // height: 233px;
+      // border: 1px solid white;
+      aspect-ratio: 1/1;
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+        // &:hover {
+        //   object-position: center;
+        //   width: 110%;
+        //   height: 110%;
+        // }
       }
     }
   }
@@ -326,6 +331,25 @@ a:hover {
     position: relative;
     font-size: 0.7em;
     overflow: hidden;
+  }
+}
+
+.login-form {
+  margin: 2em auto;
+  width: 15em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  .button {
+    width: 5em;
+    text-transform: capitalize;
+  }
+  .change-action {
+    text-decoration: underline;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 

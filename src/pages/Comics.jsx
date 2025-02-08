@@ -9,8 +9,6 @@ const Comics = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  setShowModalsContainer,
-  setModalToShow,
   isSynchronizing,
   setIsSynchronizing,
 }) => {
@@ -24,15 +22,12 @@ const Comics = ({
   useEffect(() => {
     async function fetchData() {
       console.log("Retrieving comics...");
-
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `https://site--marvel-back--44tkxvkbbxk5.code.run/comics?title=${title}&limit=${limit}&skip=${skip}`
         );
         console.log("Comics retrieved...");
-
-        // console.log(response.data.count);
-
         setData(response.data);
         setError(null);
         setIsLoading(false);
@@ -42,7 +37,6 @@ const Comics = ({
         setError(error.message);
       }
     }
-
     fetchData();
   }, [title, skip, limit]);
 
@@ -61,14 +55,14 @@ const Comics = ({
       <SearchBar
         value={title}
         setValue={setTitle}
-        count={data.count}
-        type="comic"
+        count={data?.count ?? null}
         skip={skip}
         setSkip={setSkip}
+        type="comic"
       />
 
       <Pagination
-        count={data.count}
+        count={data?.count ?? null}
         limit={limit}
         skip={skip}
         setSkip={setSkip}
@@ -76,8 +70,8 @@ const Comics = ({
       />
       <Gallery
         type="comic"
-        items={data.results}
-        count={data.count}
+        items={data?.results}
+        count={data?.count}
         isLoading={isLoading}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
@@ -86,13 +80,15 @@ const Comics = ({
         isSynchronizing={isSynchronizing}
         setIsSynchronizing={setIsSynchronizing}
       />
-      <Pagination
-        count={data.count}
-        limit={limit}
-        skip={skip}
-        setSkip={setSkip}
-        type="comic"
-      />
+      {!isLoading && (
+        <Pagination
+          count={data?.count ?? null}
+          limit={limit}
+          skip={skip}
+          setSkip={setSkip}
+          type="comic"
+        />
+      )}
     </>
   );
 };

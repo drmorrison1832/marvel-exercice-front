@@ -39,6 +39,7 @@ const Pagination = ({ count, limit, skip, setSkip, type, setIsLoading }) => {
         onClick={() => {
           if (skip + limit < count) {
             setSkip((prev) => prev + limit);
+            setIsLoading(true);
           }
         }}
       >
@@ -51,6 +52,7 @@ const Pagination = ({ count, limit, skip, setSkip, type, setIsLoading }) => {
           if (skip + limit < count) {
             console.log(Math.floor(count / limit));
             setSkip(Math.floor(count / limit) * limit);
+            setIsLoading(true);
           }
         }}
       >
