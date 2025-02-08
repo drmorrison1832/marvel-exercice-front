@@ -8,8 +8,8 @@ const SaveIcon = ({
   currentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
+  // isSynchronizing,
+  // setIsSynchronizing,
 }) => {
   console.log("SaveIcon");
 
@@ -22,8 +22,13 @@ const SaveIcon = ({
     if (!tempCurrentUserSavedItems[`${type}s`]) {
       tempCurrentUserSavedItems[`${type}s`] = [];
     }
-    !tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID) &&
-      tempCurrentUserSavedItems[`${type}s`].push(itemID);
+
+    if (tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID)) {
+      return;
+    }
+
+    tempCurrentUserSavedItems[`${type}s`].push(itemID);
+
     localStorage.setItem(
       `${currentUser?.username}`,
       JSON.stringify(tempCurrentUserSavedItems)
@@ -38,12 +43,12 @@ const SaveIcon = ({
       const body = {};
       body[type] = itemID;
       const response = await axios.put(
-        "https://site--marvel-back--44tkxvkbbxk5.code.run/saved",
-        // "http://localhost:3000/saved",
+        // "https://site--marvel-back--44tkxvkbbxk5.code.run/save",
+        "http://localhost:3000/save",
         body,
         config
       );
-      console.log("Syncrhonized");
+      console.log("Synchronized");
       setCurrentUserSavedItems(response.data);
       // setIsSynchronizing(false);
     } catch (error) {
@@ -52,27 +57,59 @@ const SaveIcon = ({
         error.response?.data?.message ?? error?.message
       );
       setError(`Unable to save save ${type}`);
-      setIsSynchronizing(true);
-      isSynchronizing(false);
+      // setIsSynchronizing(true);
+      // isSynchronizing(false);
     }
 
     // setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
-  function handleUnsave(event, type, itemID) {
+  async function handleUnsave(event, type, itemID) {
     console.log("Unsaving", itemID);
+
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
     let index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
-    console.log(index);
+
     if (index === -1) {
       return;
     }
+
     tempCurrentUserSavedItems[`${type}s`].splice(index, 1);
+
     localStorage.setItem(
       `${currentUser?.username}`,
       JSON.stringify(tempCurrentUserSavedItems)
     );
     setCurrentUserSavedItems(tempCurrentUserSavedItems);
+
+    console.log("Synchronizing data with server...");
+
+    try {
+      const config = {
+        headers: { authorization: `Bearer ${currentUser.token}` },
+      };
+      const body = {};
+      body[type] = itemID;
+      const response = await axios.put(
+        // "https://site--marvel-back--44tkxvkbbxk5.code.run/unsave",
+        "http://localhost:3000/unsave",
+        body,
+        config
+      );
+      console.log("Synchronized");
+      setCurrentUserSavedItems(response.data);
+      // setIsSynchronizing(false);
+    } catch (error) {
+      console.log(
+        "Server response:",
+        error.response?.data?.message ?? error?.message
+      );
+      setError(`Unable to save save ${type}`);
+      // setIsSynchronizing(true);
+      // isSynchronizing(false);
+    }
+
+    // setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
   return (
