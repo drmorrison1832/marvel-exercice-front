@@ -9,8 +9,6 @@ const Characters = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -70,14 +68,11 @@ const Characters = ({
       <Gallery
         type="character"
         items={data?.results}
-        count={data?.count}
         isLoading={isLoading}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         currentUserSavedItems={currentUserSavedItems}
         setCurrentUserSavedItems={setCurrentUserSavedItems}
-        isSynchronizing={isSynchronizing}
-        setIsSynchronizing={setIsSynchronizing}
       />
       {!isLoading && (
         <Pagination

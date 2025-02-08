@@ -10,8 +10,6 @@ const Gallery = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   console.log("Rendering Gallery...");
 
@@ -43,8 +41,6 @@ const Gallery = ({
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             </article>
           );

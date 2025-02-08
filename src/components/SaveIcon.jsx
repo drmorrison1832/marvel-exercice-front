@@ -9,18 +9,17 @@ const SaveIcon = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   console.log("RenderingSaveIcon");
 
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSynchronizing, setIsSynchronizing] = useState(false);
 
   // const [tempCurrentUserSavedItems, settempCurrentUserSavedItems] = useState();
 
   // useEffect(() => {
   //   const debouncesetCurrentUserSavedItems = setTimeout(() => {}, 500);
+
   //   return () => {
   //     clearTimeout(debouncesetCurrentUserSavedItems);
   //   };
@@ -28,13 +27,7 @@ const SaveIcon = ({
 
   async function handleSaved(action, type, itemID) {
     setError(null);
-
-    if (!Cookies.get("userCookie")) {
-      console.log("Has been disconnected");
-      setCurrentUser(null);
-      setCurrentUserSavedItems(null);
-      return;
-    }
+    setIsSynchronizing(true);
 
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
 
@@ -63,12 +56,14 @@ const SaveIcon = ({
       default:
         console.log("Action unknown");
         return;
-        break;
     }
 
     setCurrentUserSavedItems(tempCurrentUserSavedItems);
+    console.log("Saved/unsaved locally");
 
-    console.log("Synchronizing data with server...");
+    // DEBOUNCE THIS
+
+    console.log("Synchonizing remotely:", action);
     try {
       const config = {
         headers: { authorization: `Bearer ${currentUser.token}` },
@@ -81,8 +76,10 @@ const SaveIcon = ({
         body,
         config
       );
-      console.log("Synchronized");
-      setCurrentUserSavedItems(response.data);
+      console.log("Remotely action done");
+      console.log("Updating local ressources");
+      if (tempCurrentUserSavedItems !== response.data)
+        setCurrentUserSavedItems(response.data);
       setIsSynchronizing(false);
     } catch (error) {
       console.log(
@@ -90,8 +87,8 @@ const SaveIcon = ({
         error.response?.data?.message ?? error?.message
       );
       setError(`Unable to save save ${type}`);
-      setIsSynchronizing(true);
-      isSynchronizing(false);
+
+      setIsSynchronizing(false);
     }
   }
 
@@ -102,7 +99,9 @@ const SaveIcon = ({
           <div
             className="save-icon-container"
             onClick={() => {
-              // handleUnsave(type, itemID);
+              if (isSynchronizing) {
+                return;
+              }
               handleSaved("unsave", type, itemID);
             }}
           >
@@ -112,7 +111,9 @@ const SaveIcon = ({
           <div
             className="save-icon-container"
             onClick={() => {
-              // handleSave(type, itemID);
+              if (isSynchronizing) {
+                return;
+              }
               handleSaved("save", type, itemID);
             }}
           >

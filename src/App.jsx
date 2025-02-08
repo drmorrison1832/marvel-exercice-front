@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 import "./style/App.scss";
 
@@ -17,12 +18,12 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
-  const [isSynchronizing, setIsSynchronizing] = useState(false);
+  const [syncrhonizingError, setSyncrhonizingError] = useState(null);
 
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(Cookies.get("userCookie") ?? null)
   );
-  console.log("currentUser is", currentUser);
+  // console.log("currentUser is", currentUser);
 
   const [currentUserSavedItems, setCurrentUserSavedItems] = useState(
     JSON.parse(localStorage.getItem(`${currentUser?.username}`)) ?? null
@@ -57,8 +58,6 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -70,8 +69,6 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -83,8 +80,6 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -96,8 +91,6 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />
@@ -109,8 +102,6 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
-                isSynchronizing={isSynchronizing}
-                setIsSynchronizing={setIsSynchronizing}
               />
             }
           />

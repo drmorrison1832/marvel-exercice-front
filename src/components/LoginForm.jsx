@@ -20,8 +20,6 @@ const LoginForm = ({
     setError(null);
     setIsConnecting(true);
 
-    console.log("action is", action);
-
     if (action === "login") {
       console.log("Logging in...");
     } else {
@@ -69,8 +67,6 @@ const LoginForm = ({
       };
       Cookies.set("userCookie", JSON.stringify(userCookie));
 
-      localStorage.removeItem(`${userCookie.username}`);
-
       localStorage.setItem(
         `${userCookie.username}`,
         JSON.stringify(savedItemsResponse.data)
@@ -103,6 +99,7 @@ const LoginForm = ({
       <input
         type="text"
         placeholder="Username"
+        name="marvel-username"
         id="username"
         value={username}
         onChange={(event) => {

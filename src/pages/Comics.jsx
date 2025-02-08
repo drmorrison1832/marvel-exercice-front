@@ -9,8 +9,6 @@ const Comics = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -77,8 +75,6 @@ const Comics = ({
         setCurrentUser={setCurrentUser}
         currentUserSavedItems={currentUserSavedItems}
         setCurrentUserSavedItems={setCurrentUserSavedItems}
-        isSynchronizing={isSynchronizing}
-        setIsSynchronizing={setIsSynchronizing}
       />
       {!isLoading && (
         <Pagination

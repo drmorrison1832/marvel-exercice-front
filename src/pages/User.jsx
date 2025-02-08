@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Gallery from "../components/Gallery";
 import LoginForm from "../components/LoginForm";
-import Cookies from "js-cookie";
 import LogoutButton from "../components/LogoutButton";
 
 const User = ({
@@ -10,8 +9,6 @@ const User = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   console.log("Rendering User");
 
@@ -22,30 +19,6 @@ const User = ({
   const [error, setError] = useState(false);
   const [comicsNotFound, setComicsNotFound] = useState(false);
   const [charactersNotFound, setCharactersNotFound] = useState(false);
-
-  //   useEffect(() => {
-  //     console.log("isStillLogged?");
-  //     if (!Cookies.get("userCookie")) {
-  //       console.log("Logged out! Resetting currentUser");
-  //       setCurrentUser(null);
-  //       setCurrentUserSavedItems(null);
-  //       setCurrentUserSavedItemsData(null);
-  //     } else {
-  //       if (JSON.parse(Cookies.get("userCookie")).token !== currentUser.token) {
-  //         console.log("New login! Updating currentUser");
-  //         setCurrentUser(JSON.parse(Cookies.get("userCookie")));
-  //         setCurrentUserSavedItems(null);
-  //         setCurrentUserSavedItemsData(null);
-
-  // ///////// Véifier si setIsLoading(true) provoque un loop éternel
-
-  //         // setIsLoading(true);
-
-  // //////////////////
-
-  //       }
-  //     }
-  //   });
 
   useEffect(() => {
     async function getSavedItems() {
@@ -74,7 +47,7 @@ const User = ({
 
         setCurrentUserSavedItems(savedItemsResponse.data);
 
-        // setIsLoading(false);
+        // setIsLoading(false); // Still need to retrieve data with getSavedItemsData()
       } catch (error) {
         console.log(error.message);
         console.log(
@@ -90,11 +63,13 @@ const User = ({
       return;
     }
     getSavedItems();
-  }, [currentUser, isSynchronizing]);
+  }, [currentUser]);
 
   useEffect(() => {
     async function getSavedItemsData() {
       console.log("Retrieving items data...");
+      setIsLoading(true);
+
       setError(null);
       let newLocalCollectionData = {
         comics: new Array(),
@@ -134,16 +109,11 @@ const User = ({
       }
     }
     currentUser && getSavedItemsData();
-  }, [currentUserSavedItems]);
-
-  // useEffect(() => {
-  //   !currentUser && setIsLoading(false);
-  // }, [currentUser]);
+  }, [currentUser, currentUserSavedItems]);
 
   if (!currentUser) {
     return (
       <div>
-        {/* <p>Create an account or login to create a collection.</p> */}
         <LoginForm
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
@@ -175,26 +145,26 @@ const User = ({
           {comicsNotFound && (
             <div>⚠️ Some comics couldn't be retrieved from Marvel Database</div>
           )}
-          {!currentUserSavedItemsData.comics.length && (
-            <p>No comics saved yet</p>
-          )}
+          {!currentUserSavedItemsData ||
+            (!currentUserSavedItemsData.comics?.length && (
+              <p>No comics saved yet</p>
+            ))}
+
           <Gallery
             type="comic"
             items={currentUserSavedItemsData.comics}
-            count={currentUserSavedItemsData.comics.length}
             currentUser={currentUser}
             setCurrentUser={setCurrentUser}
             currentUserSavedItems={currentUserSavedItems}
             setCurrentUserSavedItems={setCurrentUserSavedItems}
-            isSynchronizing={isSynchronizing}
-            setIsSynchronizing={setIsSynchronizing}
           />
         </div>
         <div className="user-saved-characters"></div>
         <h2>Saved characters</h2>
-        {!currentUserSavedItemsData.characters.length && (
-          <p>No comics saved yet</p>
-        )}
+        {!currentUserSavedItemsData ||
+          (!currentUserSavedItemsData?.characters.length && (
+            <p>No comics saved yet</p>
+          ))}
         {charactersNotFound && (
           <div>
             ⚠️ Some characters couldn't be retrieved from Marvel's database
@@ -203,13 +173,10 @@ const User = ({
         <Gallery
           type="character"
           items={currentUserSavedItemsData.characters}
-          count={currentUserSavedItemsData.characters.length}
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           currentUserSavedItems={currentUserSavedItems}
           setCurrentUserSavedItems={setCurrentUserSavedItems}
-          isSynchronizing={isSynchronizing}
-          setIsSynchronizing={setIsSynchronizing}
         />{" "}
       </section>
     </div>
