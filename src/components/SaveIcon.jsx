@@ -1,5 +1,5 @@
-import { useState } from "react";
-// import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 const SaveIcon = ({
@@ -8,34 +8,49 @@ const SaveIcon = ({
   currentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  // isSynchronizing,
-  // setIsSynchronizing,
+  isSynchronizing,
+  setIsSynchronizing,
 }) => {
-  console.log("SaveIcon");
+  console.log("Rendering SaveIcon");
 
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSave(event, type, itemID) {
-    console.log("Saving", itemID);
-
+  async function handleSaved(action, type, itemID) {
+    setError(null);
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
-    if (!tempCurrentUserSavedItems[`${type}s`]) {
-      tempCurrentUserSavedItems[`${type}s`] = [];
+
+    switch (action) {
+      case "save":
+        console.log("Saving", itemID);
+        if (!tempCurrentUserSavedItems[`${type}s`]) {
+          tempCurrentUserSavedItems[`${type}s`] = [];
+        }
+        if (tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID)) {
+          console.log("Item already saved");
+        } else {
+          tempCurrentUserSavedItems[`${type}s`].push(itemID);
+        }
+        break;
+      case "unsave": {
+        console.log("Unsaving", itemID);
+        const index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
+        if (index === -1) {
+          console.log("Item already unsaved");
+          return;
+        }
+        tempCurrentUserSavedItems[`${type}s`].splice(index, 1);
+        break;
+      }
+      default:
+        console.log("Action unknown");
+        return;
+        break;
     }
 
-    if (tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID)) {
-      return;
-    }
-
-    tempCurrentUserSavedItems[`${type}s`].push(itemID);
-
-    localStorage.setItem(
-      `${currentUser?.username}`,
-      JSON.stringify(tempCurrentUserSavedItems)
-    );
+    setCurrentUserSavedItems(tempCurrentUserSavedItems);
 
     console.log("Synchronizing data with server...");
-
     try {
       const config = {
         headers: { authorization: `Bearer ${currentUser.token}` },
@@ -44,72 +59,22 @@ const SaveIcon = ({
       body[type] = itemID;
       const response = await axios.put(
         // "https://site--marvel-back--44tkxvkbbxk5.code.run/save",
-        "http://localhost:3000/save",
+        `http://localhost:3000/${action}`,
         body,
         config
       );
       console.log("Synchronized");
       setCurrentUserSavedItems(response.data);
-      // setIsSynchronizing(false);
+      setIsSynchronizing(false);
     } catch (error) {
       console.log(
         "Server response:",
         error.response?.data?.message ?? error?.message
       );
       setError(`Unable to save save ${type}`);
-      // setIsSynchronizing(true);
-      // isSynchronizing(false);
+      setIsSynchronizing(true);
+      isSynchronizing(false);
     }
-
-    // setCurrentUserSavedItems(tempCurrentUserSavedItems);
-  }
-
-  async function handleUnsave(event, type, itemID) {
-    console.log("Unsaving", itemID);
-
-    let tempCurrentUserSavedItems = { ...currentUserSavedItems };
-    let index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
-
-    if (index === -1) {
-      return;
-    }
-
-    tempCurrentUserSavedItems[`${type}s`].splice(index, 1);
-
-    localStorage.setItem(
-      `${currentUser?.username}`,
-      JSON.stringify(tempCurrentUserSavedItems)
-    );
-    setCurrentUserSavedItems(tempCurrentUserSavedItems);
-
-    console.log("Synchronizing data with server...");
-
-    try {
-      const config = {
-        headers: { authorization: `Bearer ${currentUser.token}` },
-      };
-      const body = {};
-      body[type] = itemID;
-      const response = await axios.put(
-        // "https://site--marvel-back--44tkxvkbbxk5.code.run/unsave",
-        "http://localhost:3000/unsave",
-        body,
-        config
-      );
-      console.log("Synchronized");
-      setCurrentUserSavedItems(response.data);
-      // setIsSynchronizing(false);
-    } catch (error) {
-      console.log(
-        "Server response:",
-        error.response?.data?.message ?? error?.message
-      );
-      setError(`Unable to save save ${type}`);
-      // setIsSynchronizing(true);
-      // isSynchronizing(false);
-    }
-
-    // setCurrentUserSavedItems(tempCurrentUserSavedItems);
   }
 
   return (
@@ -118,8 +83,9 @@ const SaveIcon = ({
         {currentUserSavedItems?.[`${type}s`]?.includes(itemID) ? (
           <div
             className="save-icon-container"
-            onClick={(event) => {
-              handleUnsave(event, type, itemID);
+            onClick={() => {
+              // handleUnsave(type, itemID);
+              handleSaved("unsave", type, itemID);
             }}
           >
             ♥︎
@@ -127,8 +93,9 @@ const SaveIcon = ({
         ) : (
           <div
             className="save-icon-container"
-            onClick={(event) => {
-              handleSave(event, type, itemID);
+            onClick={() => {
+              // handleSave(type, itemID);
+              handleSaved("save", type, itemID);
             }}
           >
             ♡

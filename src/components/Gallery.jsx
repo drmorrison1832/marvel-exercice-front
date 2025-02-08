@@ -10,6 +10,8 @@ const Gallery = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
+  isSynchronizing,
+  setIsSynchronizing,
 }) => {
   if (isLoading) {
     return <div className="is-loading">Loading...</div>;
@@ -39,6 +41,8 @@ const Gallery = ({
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                isSynchronizing={isSynchronizing}
+                setIsSynchronizing={setIsSynchronizing}
               />
             </article>
           );

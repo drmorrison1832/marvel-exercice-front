@@ -75,6 +75,8 @@ const Characters = ({
         setCurrentUser={setCurrentUser}
         currentUserSavedItems={currentUserSavedItems}
         setCurrentUserSavedItems={setCurrentUserSavedItems}
+        isSynchronizing={isSynchronizing}
+        setIsSynchronizing={setIsSynchronizing}
       />
       <Pagination
         count={data.count}

@@ -81,6 +81,8 @@ const Character = ({
           currentUser={currentUser}
           currentUserSavedItems={currentUserSavedItems}
           setCurrentUserSavedItems={setCurrentUserSavedItems}
+          isSynchronizing={isSynchronizing}
+          setIsSynchronizing={setIsSynchronizing}
         />
       </div>
       <div className="character-name">{data.name}</div>

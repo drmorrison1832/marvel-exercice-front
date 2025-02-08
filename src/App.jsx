@@ -17,7 +17,7 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
-  const [isSynchronizing, setIsSynchronizing] = useState();
+  const [isSynchronizing, setIsSynchronizing] = useState(false);
 
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(Cookies.get("userCookie") ?? null)

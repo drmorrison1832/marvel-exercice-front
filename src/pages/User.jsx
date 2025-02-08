@@ -15,16 +15,6 @@ const User = ({
 }) => {
   console.log("Rendering User");
 
-  // const [currentUser, setCurrentUser] = useState(
-  //   JSON.parse(Cookies.get("userCookie") ?? null)
-  // );
-  // console.log("currentUser is", currentUser);
-
-  // const [currentUserSavedItems, setCurrentUserSavedItems] = useState(
-  //   JSON.parse(localStorage.getItem(`${currentUser?.username}`)) ?? null
-  // );
-  // console.log("currentUserSavedItems is", currentUserSavedItems);
-
   const [currentUserSavedItemsData, setCurrentUserSavedItemsData] = useState(
     new Object()
   );
@@ -34,8 +24,53 @@ const User = ({
   const [charactersNotFound, setCharactersNotFound] = useState(false);
 
   useEffect(() => {
-    async function getData() {
-      console.log("Retrieving data...");
+    async function getSavedItems() {
+      console.log("Retrieving saved items...");
+      setError(null);
+      setIsLoading(true);
+
+      try {
+        const config = {
+          headers: { authorization: `Bearer ${currentUser.token}` },
+        };
+
+        const savedItemsResponse = await axios.get(
+          // "https://site--marvel-back--44tkxvkbbxk5.code.run/saved",
+          "http://localhost:3000/saved",
+          config
+        );
+        console.log("Saved items successfully retrieved:");
+
+        localStorage.removeItem(`${currentUser.username}`);
+
+        localStorage.setItem(
+          `${currentUser.username}`,
+          JSON.stringify(savedItemsResponse.data)
+        );
+
+        setCurrentUserSavedItems(savedItemsResponse.data);
+
+        // setIsLoading(false);
+      } catch (error) {
+        console.log(error.message);
+        console.log(
+          "Server response:",
+          error.response?.data?.message ?? error?.message
+        );
+        setError(error.response?.data?.message ?? error?.message);
+        setIsLoading(false);
+      }
+    }
+    if (!currentUser) {
+      console.log("Not connected");
+      return;
+    }
+    getSavedItems();
+  }, [currentUser, isSynchronizing]);
+
+  useEffect(() => {
+    async function getSavedItemsData() {
+      console.log("Retrieving items data...");
       setError(null);
       let newLocalCollectionData = {
         comics: new Array(),
@@ -44,8 +79,8 @@ const User = ({
       try {
         for (let comic of currentUserSavedItems.comics) {
           let comicResponse = await axios(
-            // `http://localhost:3000/comic/${comic}`
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
+            `http://localhost:3000/comic/${comic}`
+            // `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
           );
 
           comicResponse.data
@@ -55,8 +90,8 @@ const User = ({
 
         for (let character of currentUserSavedItems.characters) {
           let characterResponse = await axios(
-            // `http://localhost:3000/character/${character}`
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
+            `http://localhost:3000/character/${character}`
+            // `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
           );
 
           characterResponse.data
@@ -64,7 +99,7 @@ const User = ({
             : setCharactersNotFound(true);
         }
 
-        console.log("Data retrieved");
+        console.log("Items data retrieved");
         setCurrentUserSavedItemsData(newLocalCollectionData);
         setError(null);
         setIsLoading(false);
@@ -74,8 +109,8 @@ const User = ({
         setIsLoading(false);
       }
     }
-    currentUser && getData();
-  }, [currentUser, currentUserSavedItems]);
+    currentUser && getSavedItemsData();
+  }, [currentUserSavedItems]);
 
   // useEffect(() => {
   //   !currentUser && setIsLoading(false);
