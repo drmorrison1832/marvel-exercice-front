@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import SaveIcon from "../components/SaveIcon";
+import Gallery from "../components/Gallery";
 
 const Character = ({
   currentUser,
@@ -19,6 +20,8 @@ const Character = ({
   const [comicsData, setComicsData] = useState();
   const [isComicsDataLoading, setComicsDataIsLoading] = useState(false);
   const [comicsDataError, setComicsDataError] = useState(false);
+
+  const [appearancesSkip, setAppearancesSkip] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -85,7 +88,25 @@ const Character = ({
       <div className="character-description">
         {data.description || "No description..."}
       </div>
-      <h2>Appears in...</h2>
+
+      <section className="character-appearances-section">
+        <h2>Appears in...</h2>
+
+        {!data.comics || !data.comics?.length ? (
+          <p>No appearances yet...</p>
+        ) : (
+          <Gallery
+            type="comic"
+            items={data.comics}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            currentUserSavedItems={currentUserSavedItems}
+            setCurrentUserSavedItems={setCurrentUserSavedItems}
+          />
+        )}
+      </section>
+
+      {/* <h2>Appears in...</h2>
       <div className="character-appearances-section">
         {data.comics.map((comic) => {
           return (
@@ -111,7 +132,7 @@ const Character = ({
             </div>
           );
         })}
-      </div>
+      </div> */}
     </article>
   );
 };

@@ -22,9 +22,11 @@ const User = ({
 
   useEffect(() => {
     async function getSavedItems() {
-      console.log("Retrieving saved items...");
+      console.log("Verifying saved items are synchronized with server data...");
       setError(null);
       setIsLoading(true);
+      setComicsNotFound(false);
+      setCharactersNotFound(false);
 
       try {
         const config = {
@@ -36,16 +38,27 @@ const User = ({
           // "http://localhost:3000/saved",
           config
         );
-        console.log("Saved items successfully retrieved:");
+        console.log("Saved items successfully retrieved");
 
-        localStorage.removeItem(`${currentUser.username}`);
+        // localStorage.removeItem(`${currentUser.username}`);
 
-        localStorage.setItem(
-          `${currentUser.username}`,
-          JSON.stringify(savedItemsResponse.data)
-        );
+        // localStorage.setItem(
+        //   `${currentUser.username}`,
+        //   JSON.stringify(savedItemsResponse.data)
+        // );
 
-        setCurrentUserSavedItems(savedItemsResponse.data);
+        console.log("REMOTE:", savedItemsResponse.data);
+        console.log("LOCAL:", currentUserSavedItems);
+
+        if (
+          JSON.stringify(savedItemsResponse.data) !==
+          JSON.stringify(currentUserSavedItems)
+        ) {
+          console.warn("Local data was updated");
+          setCurrentUserSavedItems(savedItemsResponse.data);
+        } else {
+          console.log("Local was already up to date");
+        }
 
         // setIsLoading(false); // Still need to retrieve data with getSavedItemsData()
       } catch (error) {
@@ -62,40 +75,55 @@ const User = ({
       console.log("Not connected");
       return;
     }
-    getSavedItems();
+    currentUser && getSavedItems();
   }, [currentUser]);
 
   useEffect(() => {
     async function getSavedItemsData() {
       console.log("Retrieving items data...");
       setIsLoading(true);
-
       setError(null);
+
       let newLocalCollectionData = {
         comics: new Array(),
         characters: new Array(),
       };
-      try {
-        for (let comic of currentUserSavedItems.comics) {
-          let comicResponse = await axios(
-            // `http://localhost:3000/comic/${comic}`
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
-          );
 
-          comicResponse.data
-            ? newLocalCollectionData.comics.push(comicResponse.data)
-            : setComicsNotFound(true);
+      try {
+        try {
+          if (currentUserSavedItems?.comics.length) {
+            for (let comic of currentUserSavedItems.comics) {
+              let comicResponse = await axios(
+                // `http://localhost:3000/comic/${comic}`
+                `https://site--marvel-back--44tkxvkbbxk5.code.run/comic/${comic}`
+              );
+
+              comicResponse.data
+                ? newLocalCollectionData.comics.push(comicResponse.data)
+                : setComicsNotFound(true);
+            }
+          }
+        } catch (error) {
+          console.error("Error retrieving a comic:", error.message);
+          setComicsNotFound(true);
         }
 
-        for (let character of currentUserSavedItems.characters) {
-          let characterResponse = await axios(
-            // `http://localhost:3000/character/${character}`
-            `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
-          );
+        try {
+          if (currentUserSavedItems?.characters.length) {
+            for (let character of currentUserSavedItems.characters) {
+              let characterResponse = await axios(
+                // `http://localhost:3000/character/${character}`
+                `https://site--marvel-back--44tkxvkbbxk5.code.run/character/${character}`
+              );
 
-          characterResponse.data
-            ? newLocalCollectionData.characters.push(characterResponse.data)
-            : setCharactersNotFound(true);
+              characterResponse.data
+                ? newLocalCollectionData.characters.push(characterResponse.data)
+                : setCharactersNotFound(true);
+            }
+          }
+        } catch (error) {
+          console.error("Error retrieving a character:", error.message);
+          setCharactersNotFound(true);
         }
 
         console.log("Items data retrieved");
@@ -103,7 +131,7 @@ const User = ({
         setError(null);
         setIsLoading(false);
       } catch (error) {
-        console.error(error.message);
+        console.error("Server error is", error.message);
         setError(error.message);
         setIsLoading(false);
       }
@@ -124,7 +152,7 @@ const User = ({
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="is-loading">Loading...</div>;
   }
 
   if (error) {
@@ -132,54 +160,58 @@ const User = ({
   }
 
   return (
-    <div className="user-saved">
-      <LogoutButton
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-        setCurrentUserSavedItems={setCurrentUserSavedItems}
-      />
+    <>
+      <div className="logout-button">
+        <LogoutButton
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
+          setCurrentUserSavedItems={setCurrentUserSavedItems}
+        />
+      </div>
 
-      <section>
+      <section className="user-saved">
         <h2>Saved comics</h2>
         <div className="user-saved-comics">
           {comicsNotFound && (
             <div>⚠️ Some comics couldn't be retrieved from Marvel Database</div>
           )}
           {!currentUserSavedItemsData ||
-            (!currentUserSavedItemsData.comics?.length && (
-              <p>No comics saved yet</p>
-            ))}
-
-          <Gallery
-            type="comic"
-            items={currentUserSavedItemsData.comics}
-            currentUser={currentUser}
-            setCurrentUser={setCurrentUser}
-            currentUserSavedItems={currentUserSavedItems}
-            setCurrentUserSavedItems={setCurrentUserSavedItems}
-          />
+          !currentUserSavedItemsData.comics?.length ? (
+            <p>No comics saved yet</p>
+          ) : (
+            <Gallery
+              type="comic"
+              items={currentUserSavedItemsData.comics}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+              currentUserSavedItems={currentUserSavedItems}
+              setCurrentUserSavedItems={setCurrentUserSavedItems}
+            />
+          )}
         </div>
         <div className="user-saved-characters"></div>
         <h2>Saved characters</h2>
-        {!currentUserSavedItemsData ||
-          (!currentUserSavedItemsData?.characters.length && (
-            <p>No comics saved yet</p>
-          ))}
+
         {charactersNotFound && (
           <div>
             ⚠️ Some characters couldn't be retrieved from Marvel's database
           </div>
         )}
-        <Gallery
-          type="character"
-          items={currentUserSavedItemsData.characters}
-          currentUser={currentUser}
-          setCurrentUser={setCurrentUser}
-          currentUserSavedItems={currentUserSavedItems}
-          setCurrentUserSavedItems={setCurrentUserSavedItems}
-        />{" "}
+        {!currentUserSavedItemsData ||
+        !currentUserSavedItemsData.characters?.length ? (
+          <p>No characters saved yet</p>
+        ) : (
+          <Gallery
+            type="character"
+            items={currentUserSavedItemsData.characters}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
+            currentUserSavedItems={currentUserSavedItems}
+            setCurrentUserSavedItems={setCurrentUserSavedItems}
+          />
+        )}
       </section>
-    </div>
+    </>
   );
 };
 

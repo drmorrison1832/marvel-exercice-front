@@ -27,7 +27,11 @@ const Home = ({
   //   return <div className="loading-error">Home: Oups</div>;
   // }
 
-  return <div>Exercice done at Le Reacteur</div>;
+  return (
+    <section className="home">
+      <h1> Exercice done at Le Reacteur</h1>
+    </section>
+  );
 };
 
 export default Home;

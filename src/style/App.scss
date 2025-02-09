@@ -13,18 +13,20 @@ html {
 }
 
 body {
-  height: 100dvh;
   display: flex;
   flex-direction: column;
+  height: 100dvh;
   justify-content: space-between;
 }
 
 .main {
-  // background: red;
+  // border: 1px solid white;
+  flex-grow: 1;
+  flex-basis: 100%;
+  min-height: 50dvh;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  justify-content: center;
+  justify-content: flex-start;
   // align-self: stretch;
   // display: flex;
   // flex-direction: column;
@@ -32,6 +34,11 @@ body {
 }
 
 .modal-container {
+}
+
+.is-loading {
+  margin-top: 3em;
+  font-weight: 700;
 }
 
 header {
@@ -80,21 +87,31 @@ header {
 
 a {
   font-weight: 500;
-  // color: #646cff;
+
   text-decoration: inherit;
 }
 a:hover {
-  // color: #535bf2;
+  cursor: pointer;
 }
 
-.test1:hover {
-  filter: drop-shadow(0 0 2em #ffffffaa);
-  // filter: drop-shadow(0 0 2em #646cffaa);
-  transition: filter 200ms;
+h1 {
+  font-size: 1.2em;
+  font-weight: 700;
 }
-.test2:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-  transition: filter 200ms;
+
+h2 {
+  margin-top: 2em;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+
+// HOME
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
 }
 
 // GALLERY
@@ -143,37 +160,43 @@ a:hover {
     .comic-thumbnail-container {
       // height: 233px;
       // border: 1px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100%;
       overflow: hidden;
       img {
+        object-position: center;
         object-fit: cover;
-        object-position: center left;
         width: 100%;
         height: 100%;
-        // &:hover {
-        //   object-position: center;
-        //   width: 105%;
-        //   height: 105%;
-        // }
+        &:hover {
+          transform: scale(105%);
+          transition-duration: 0.3s;
+          transition-property: transform;
+        }
       }
     }
     .character-thumbnail-container {
       // height: 233px;
       // border: 1px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       aspect-ratio: 1/1;
       height: 100%;
       overflow: hidden;
 
       img {
+        object-position: center left;
         object-fit: cover;
-        object-position: center;
         width: 100%;
         height: 100%;
-        // &:hover {
-        //   object-position: center;
-        //   width: 110%;
-        //   height: 110%;
-        // }
+        &:hover {
+          transform: scale(105%);
+          transition-duration: 0.3s;
+          transition-property: transform;
+        }
       }
     }
   }
@@ -307,30 +330,9 @@ a:hover {
   .character-appearances-section {
     min-width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-evenly;
     flex-wrap: wrap;
-  }
-  .character-appearance-comic {
-    // border: 1px solid white;
-    width: 100px;
-    // height: 150px;
-    height: calc(150px + 1em);
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .caracter-appearance-comic-thumbnail-container {
-    position: relative;
-    font-size: 0.7em;
-  }
-
-  .character-appearance-title {
-    width: 100%;
-    background: #000;
-    position: relative;
-    font-size: 0.7em;
-    overflow: hidden;
   }
 }
 
@@ -356,4 +358,8 @@ a:hover {
 
 .error-message {
   color: red;
+}
+
+.logout-button {
+  margin-top: 3em;
 }

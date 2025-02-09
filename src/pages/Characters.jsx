@@ -58,13 +58,15 @@ const Characters = ({
         setSkip={setSkip}
         type="character"
       />
-      <Pagination
-        count={data?.count ?? null}
-        limit={limit}
-        skip={skip}
-        setSkip={setSkip}
-        type="character"
-      />
+      {data?.count > 0 && (
+        <Pagination
+          count={data?.count ?? null}
+          limit={limit}
+          skip={skip}
+          setSkip={setSkip}
+          type="character"
+        />
+      )}
       <Gallery
         type="character"
         items={data?.results}
@@ -74,7 +76,7 @@ const Characters = ({
         currentUserSavedItems={currentUserSavedItems}
         setCurrentUserSavedItems={setCurrentUserSavedItems}
       />
-      {!isLoading && (
+      {!isLoading && data?.count > 0 && (
         <Pagination
           count={data?.count ?? null}
           limit={limit}

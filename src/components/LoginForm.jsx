@@ -33,8 +33,7 @@ const LoginForm = ({
       }
 
       const route = action.replace(" ", "");
-
-      console.log("route es", route);
+      console.log("Action is", route);
 
       let userResponse = await axios.post(
         `https://site--marvel-back--44tkxvkbbxk5.code.run/user/${route}`,

@@ -31,39 +31,40 @@ const SaveIcon = ({
 
     let tempCurrentUserSavedItems = { ...currentUserSavedItems };
 
+    if (!tempCurrentUserSavedItems[`${type}s`]) {
+      tempCurrentUserSavedItems[`${type}s`] = [];
+    }
+
     switch (action) {
       case "save":
-        console.log("Saving", itemID);
-        if (!tempCurrentUserSavedItems[`${type}s`]) {
-          tempCurrentUserSavedItems[`${type}s`] = [];
-        }
+        console.log("♥︎♡ Saving", itemID);
         if (tempCurrentUserSavedItems?.[`${type}s`]?.includes(itemID)) {
-          console.log("Item already saved");
+          console.log("♥︎♡ Item already saved");
         } else {
           tempCurrentUserSavedItems[`${type}s`].push(itemID);
         }
         break;
       case "unsave": {
-        console.log("Unsaving", itemID);
+        console.log("♥︎♡ Unsaving", itemID);
         const index = tempCurrentUserSavedItems[`${type}s`].indexOf(itemID);
         if (index === -1) {
-          console.log("Item already unsaved");
+          console.log("♥︎♡ Item already unsaved");
           return;
         }
         tempCurrentUserSavedItems[`${type}s`].splice(index, 1);
         break;
       }
       default:
-        console.log("Action unknown");
+        console.log("♥︎♡ Action unknown");
         return;
     }
 
     setCurrentUserSavedItems(tempCurrentUserSavedItems);
-    console.log("Saved/unsaved locally");
+    console.log("♥︎♡ Saved/unsaved on state");
 
     // DEBOUNCE THIS
 
-    console.log("Synchonizing remotely:", action);
+    console.log("♥︎♡ Synchonizing remotely:", action);
     try {
       const config = {
         headers: { authorization: `Bearer ${currentUser.token}` },
@@ -76,14 +77,14 @@ const SaveIcon = ({
         body,
         config
       );
-      console.log("Remotely action done");
-      console.log("Updating local ressources");
+      console.log("♥︎♡ Remotely action done");
+      console.log("♥︎♡ Verifying state data matches server data");
       if (tempCurrentUserSavedItems !== response.data)
         setCurrentUserSavedItems(response.data);
       setIsSynchronizing(false);
     } catch (error) {
       console.log(
-        "Server response:",
+        "♥︎♡ Server response:",
         error.response?.data?.message ?? error?.message
       );
       setError(`Unable to save save ${type}`);

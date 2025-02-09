@@ -17,6 +17,14 @@ const Gallery = ({
     return <div className="is-loading">Loading...</div>;
   }
 
+  if (!items || items.length === 0) {
+    return (
+      <>
+        <section className="gallery">No results</section>
+      </>
+    );
+  }
+
   return (
     <>
       <section className="gallery">
