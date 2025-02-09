@@ -40,9 +40,9 @@ const Comics = ({
 
   console.log("Rendering Comics");
 
-  if (isLoading) {
-    return <div className="is-loading">Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="is-loading">Loading...</div>;
+  // }
 
   if (error) {
     return <div className="loading-error">Oups</div>;
@@ -58,7 +58,6 @@ const Comics = ({
         setSkip={setSkip}
         type="comic"
       />
-
       <Pagination
         count={data?.count ?? null}
         limit={limit}
@@ -69,7 +68,6 @@ const Comics = ({
       <Gallery
         type="comic"
         items={data?.results}
-        count={data?.count}
         isLoading={isLoading}
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}

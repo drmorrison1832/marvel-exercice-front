@@ -14,8 +14,8 @@ const Characters = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [name, setName] = useState("");
-  const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(25);
+  const [skip, setSkip] = useState(0);
 
   useEffect(() => {
     async function fetchData() {

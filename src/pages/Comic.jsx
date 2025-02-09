@@ -9,8 +9,6 @@ const Comic = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
-  isSynchronizing,
-  setIsSynchronizing,
 }) => {
   const { comicID } = useParams();
 
@@ -66,8 +64,6 @@ const Comic = ({
           currentUser={currentUser}
           currentUserSavedItems={currentUserSavedItems}
           setCurrentUserSavedItems={setCurrentUserSavedItems}
-          isSynchronizing={isSynchronizing}
-          setIsSynchronizing={setIsSynchronizing}
         />
       </div>
       <div className="comic-title">{comic.title}</div>
