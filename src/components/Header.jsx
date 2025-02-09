@@ -12,11 +12,11 @@ const Header = ({
 
   return (
     <header className="header">
-      <div className="logo-container">
-        <Link to="/">
+      <Link to="/">
+        <div className="logo-container">
           <img src={marvelLogo} alt="Marvel Logo" />
-        </Link>
-      </div>
+        </div>
+      </Link>
       <nav>
         <div
           className={

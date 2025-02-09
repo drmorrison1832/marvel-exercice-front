@@ -48,11 +48,16 @@ header {
   flex-direction: column;
   background: #ed1e24;
   .logo-container {
-    // border: 1px solid white;
-    height: 5em;
     display: flex;
+    flex-direction: row;
+    height: 5em;
     justify-content: center;
+    // border: 1px solid white;
+    // align-items: center;
+    overflow: hidden;
     img {
+      flex-grow: 0;
+      // border: 1px solid white;
       height: 100%;
     }
   }
@@ -157,46 +162,62 @@ h2 {
       // max-width: 10em;
       // white-space: nowrap;
     }
+
+    .item-title-image-not-available {
+      position: absolute;
+      top: 0;
+      background: #000;
+      font-weight: 700;
+      line-height: 1.5em;
+      z-index: 10;
+      width: 100%;
+      justify-content: center;
+      display: flex;
+    }
     .comic-thumbnail-container {
       // height: 233px;
-      // border: 1px solid white;
       display: flex;
+      // flex-direction: column;
+      aspect-ratio: 2/3;
       justify-content: center;
       align-items: center;
       height: 100%;
       overflow: hidden;
+
+      &:hover {
+        transform: scale(105%);
+        transition-duration: 0.3s;
+        transition-property: transform;
+      }
+
       img {
-        object-position: center;
+        object-position: left;
         object-fit: cover;
         width: 100%;
         height: 100%;
-        &:hover {
-          transform: scale(105%);
-          transition-duration: 0.3s;
-          transition-property: transform;
-        }
       }
     }
     .character-thumbnail-container {
       // height: 233px;
       // border: 1px solid white;
+      flex-direction: column;
       display: flex;
       justify-content: center;
       align-items: center;
       aspect-ratio: 1/1;
       height: 100%;
       overflow: hidden;
+      &:hover {
+        transform: scale(105%);
+        transition-duration: 0.3s;
+        transition-property: transform;
+      }
 
       img {
         object-position: center left;
         object-fit: cover;
         width: 100%;
         height: 100%;
-        &:hover {
-          transform: scale(105%);
-          transition-duration: 0.3s;
-          transition-property: transform;
-        }
       }
     }
   }
