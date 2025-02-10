@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import SaveIcon from "../components/SaveIcon";
+import { useLocation } from "react-router-dom";
 
 const Comic = ({
   currentUser,
@@ -48,6 +48,14 @@ const Comic = ({
 
   return (
     <article className="comic-page">
+      <div
+        className="back-button"
+        onClick={() => {
+          history.go(-1);
+        }}
+      >
+        Go back
+      </div>
       <div className="comic-thumbnail-container">
         <img
           src={
@@ -68,6 +76,14 @@ const Comic = ({
       </div>
       <div className="comic-title">{comic.title}</div>
       <div className="comic-description">{comic.description}</div>
+      <div
+        className="back-button"
+        onClick={() => {
+          history.go(-1);
+        }}
+      >
+        Go back
+      </div>
     </article>
   );
 };

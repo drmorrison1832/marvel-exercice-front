@@ -16,6 +16,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100dvh;
+
   justify-content: space-between;
 }
 
@@ -24,6 +25,8 @@ body {
   flex-grow: 1;
   flex-basis: 100%;
   min-height: 50dvh;
+
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -383,4 +386,17 @@ h2 {
 
 .logout-button {
   margin-top: 3em;
+}
+
+.back-button {
+  // border: 1px solid white;
+  font-weight: 700;
+  margin: 1em;
+  // max-width: 640px;
+  // width: 100%;
+  // text-align: left;
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
