@@ -51,8 +51,8 @@ const Comics = ({
   return (
     <>
       <SearchBar
-        value={title}
-        setValue={setTitle}
+        query={title}
+        setQuery={setTitle}
         count={data?.count ?? null}
         skip={skip}
         setSkip={setSkip}

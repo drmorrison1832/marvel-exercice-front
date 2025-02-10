@@ -51,8 +51,8 @@ const Characters = ({
   return (
     <>
       <SearchBar
-        value={name}
-        setValue={setName}
+        query={name}
+        setQuery={setName}
         count={data?.count ?? null}
         skip={skip}
         setSkip={setSkip}

@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
-const SearchBar = ({ value, setValue, count, skip, setSkip, type }) => {
-  const [newValue, setNewValue] = useState("");
+const SearchBar = ({ query, setQuery, count, skip, setSkip, type }) => {
+  const [newQuery, setNewQuery] = useState("");
 
   useEffect(() => {
-    const debouncenewValue = setTimeout(() => {
+    const debouncenewQuery = setTimeout(() => {
       skip != 0 && setSkip(0);
-      newValue != value && setValue(newValue);
-      // newValue && console.log("Setting newValue to", newValue);
+      newQuery != query && setQuery(newQuery);
+      // newQuery && console.log("Setting newQuery to", newQuery);
     }, 500);
     return () => {
-      clearTimeout(debouncenewValue);
+      clearTimeout(debouncenewQuery);
     };
-  }, [newValue, setValue]);
+  }, [newQuery, setQuery]);
 
   return (
     <form
@@ -27,9 +27,9 @@ const SearchBar = ({ value, setValue, count, skip, setSkip, type }) => {
         placeholder={
           count ? `Search among ${count} ${type}s` : "Start searching"
         }
-        value={newValue}
+        value={newQuery}
         onChange={(event) => {
-          setNewValue(event.target.value);
+          setNewQuery(event.target.value);
         }}
       />
     </form>
