@@ -20,7 +20,9 @@ function App() {
   const [showModalsContainer, setShowModalsContainer] = useState(false);
   const [modalToShow, setModalToShow] = useState("");
 
-  const [syncrhonizingError, setSyncrhonizingError] = useState(null);
+  // const [title, setTitle] = useState("spiderman");
+  // const [limit, setLimit] = useState(25);
+  // const [skip, setSkip] = useState(0);
 
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -80,6 +82,7 @@ function App() {
     return <div>Loadgin...</div>;
   }
 
+  // console.log("title is", title);
   return (
     <>
       <Header
@@ -109,6 +112,12 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                // title={title}
+                // setTitle={setTitle}
+                // limit={limit}
+                // setLimit={setLimit}
+                // skip={skip}
+                // setSkip={setSkip}
               />
             }
           />
@@ -120,6 +129,12 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 currentUserSavedItems={currentUserSavedItems}
                 setCurrentUserSavedItems={setCurrentUserSavedItems}
+                // title={title}
+                // setTitle={setTitle}
+                // limit={limit}
+                // setLimit={setLimit}
+                // skip={skip}
+                // setSkip={setSkip}
               />
             }
           />

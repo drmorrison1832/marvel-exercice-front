@@ -1,35 +1,46 @@
 @use "modals.scss";
 
-html {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  background-color: #242424;
-  color: rgba(255, 255, 255, 0.87);
-  text-align: center;
-
-  min-width: 320px;
-  max-width: 1280px;
+#root {
+  width: 100%;
   margin: 0 auto;
-  min-height: 100vh;
-}
+  text-align: center;
+  // border: 1px solid white;
 
-body {
   display: flex;
   flex-direction: column;
   height: 100dvh;
+}
 
+body {
+  // border: 1px solid white;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #242424;
+  color: rgba(255, 255, 255, 0.87);
+  // text-align: center;
+  margin: 0 auto;
+  // height: 100dvh;
+
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+
+  min-width: 320px;
+  max-width: 1280px;
 }
 
 .main {
   // border: 1px solid white;
+  display: flex;
   flex-grow: 1;
-  flex-basis: 100%;
+  // flex-basis: 100%;
+  // height: 100%;
   min-height: 50dvh;
 
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
   // align-self: stretch;
   // display: flex;
   // flex-direction: column;
@@ -103,6 +114,7 @@ a:hover {
 }
 
 h1 {
+  // width: 100dvw;
   font-size: 1.2em;
   font-weight: 700;
 }
@@ -288,8 +300,14 @@ h2 {
     justify-content: center;
     font-size: 1.5em;
     position: relative;
+    overflow: hidden;
     img {
       // width: 100%;
+      &:hover {
+        transform: scale(103%);
+        transition-duration: 0.3s;
+        transition-property: transform;
+      }
     }
   }
   .comic-title {
@@ -328,6 +346,11 @@ h2 {
     // height: 233px;
     img {
       // width: 100%;
+      &:hover {
+        transform: scale(103%);
+        transition-duration: 0.3s;
+        transition-property: transform;
+      }
     }
   }
 

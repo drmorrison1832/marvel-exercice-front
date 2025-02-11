@@ -1,20 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SaveIcon from "../components/SaveIcon";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 const Comic = ({
   currentUser,
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
+  // title,
+  // setTitle,
+  // limit,
+  // setLimit,
+  // skip,
+  // setSkip,
 }) => {
   const { comicID } = useParams();
+
+  // const location = useLocation();
+  // console.log(location);
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // console.log("title is", title);
+  // const navigate = useNavigate();
 
   const comic = data;
 
@@ -52,6 +64,7 @@ const Comic = ({
         className="back-button"
         onClick={() => {
           history.go(-1);
+          // navigate("/comics");
         }}
       >
         Go back
@@ -64,7 +77,7 @@ const Comic = ({
             "." +
             comic.thumbnail.extension
           }
-          alt=""
+          alt={comic.title}
         />
         <SaveIcon
           type={"comic"}

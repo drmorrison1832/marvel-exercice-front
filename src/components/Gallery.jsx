@@ -35,12 +35,12 @@ const Gallery = ({
                 <div className={`${type}-thumbnail-container`}>
                   {item.thumbnail.path.includes("image_not_available") && (
                     <div className="item-title-image-not-available">
-                      {item.title ?? item.name}
+                      {item.title || item.name}
                     </div>
                   )}
                   <img
                     src={item.thumbnail.path + "." + item.thumbnail.extension}
-                    alt=""
+                    alt={item.title || item.name}
                   />
                 </div>
               </Link>

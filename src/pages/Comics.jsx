@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Gallery from "../components/Gallery";
 import SearchBar from "../components/SearchBar";
 import Pagination from "../components/Pagination";
@@ -9,6 +9,12 @@ const Comics = ({
   setCurrentUser,
   currentUserSavedItems,
   setCurrentUserSavedItems,
+  // title,
+  // setTitle,
+  // limit,
+  // setLimit,
+  // skip,
+  // setSkip,
 }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -16,6 +22,8 @@ const Comics = ({
   const [title, setTitle] = useState("");
   const [limit, setLimit] = useState(25);
   const [skip, setSkip] = useState(0);
+
+  // console.log("title is", title);
 
   useEffect(() => {
     async function fetchData() {

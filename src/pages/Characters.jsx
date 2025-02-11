@@ -53,14 +53,14 @@ const Characters = ({
       <SearchBar
         query={name}
         setQuery={setName}
-        count={data?.count ?? null}
+        count={data?.count}
         skip={skip}
         setSkip={setSkip}
         type="character"
       />
       {data?.count > 0 && (
         <Pagination
-          count={data?.count ?? null}
+          count={data?.count}
           limit={limit}
           skip={skip}
           setSkip={setSkip}
@@ -78,7 +78,7 @@ const Characters = ({
       />
       {!isLoading && data?.count > 0 && (
         <Pagination
-          count={data?.count ?? null}
+          count={data?.count}
           limit={limit}
           skip={skip}
           setSkip={setSkip}
